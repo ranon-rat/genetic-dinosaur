@@ -8,8 +8,8 @@ public class Node {
     double bias = 1;
     int layer;
     int index;
-    ArrayList<Node> connectedNodes = new ArrayList<>();// this works as a pointer
-    ArrayList<Double> weightOfConnections=new ArrayList<>() ;
+    ArrayList<Node> connections = new ArrayList<>();// this works as a pointer
+    ArrayList<Double> weights=new ArrayList<>() ;
 
     Node(int l,int i){
         index=i;
@@ -35,10 +35,10 @@ public class Node {
     // I will save this as a pointer
     void addNewConnection(Node newCon) {
 
-        if (!connectedNodes.contains(newCon)) {
+        if (!connections.contains(newCon)) {
             Random rnd = new Random();
-            connectedNodes.add(newCon);
-            weightOfConnections.add(rnd.nextDouble() + rnd.nextDouble() * -1);
+            connections.add(newCon);
+            weights.add(rnd.nextDouble() + rnd.nextDouble() * -1);
         }
 
 
@@ -46,22 +46,23 @@ public class Node {
 
     void changeWeights() {
         Random rnd = new Random();
-        for (int i = 0; i < weightOfConnections.size(); i++)
+        for (int i = 0; i < weights.size(); i++)
             if (Math.random() < 0.10)
-                weightOfConnections.set(i, rnd.nextDouble() + rnd.nextDouble() * -1);
+                weights.set(i, rnd.nextDouble() + rnd.nextDouble() * -1);
             else
-                weightOfConnections.set(i, weightOfConnections.get(i) + rnd.nextGaussian());
+                weights.set(i, weights.get(i) + rnd.nextGaussian());
     }
 
     void engage() {
+
         if (layer != 0) {
             output = sigmoid(input + bias);
         }
         //I think that it should work because im not declare a new node or something like that
         //I'm just using a variable another variable based in an object, so it should work I think ,but I don't really know
-        for (int i = 0; i < connectedNodes.size(); i++) {
+        for (int i = 0; i < connections.size(); i++) {
 
-            connectedNodes.get(i).input += output * weightOfConnections.get(i);
+            connections.get(i).input += output * weights.get(i);
 
         }
     }

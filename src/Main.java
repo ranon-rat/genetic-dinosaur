@@ -26,15 +26,12 @@ public class Main {
     }
 
     static public void start() {
-        while (running) {
+       while (running) {
             g = (Graphics2D) bs.getDrawGraphics();
             screen.update(g);
             g.dispose();
             bs.show();
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException ignored) {
-            }
+
         }
         System.exit(0);
 

@@ -7,6 +7,9 @@ public class Brain implements Cloneable {
     int layers = 5;// 3 hidden layers
     int lengthOfHiddenLayers = 8;
     int output = 3;// length of output nodes
+
+
+    Font myFont = new Font ("Courier New", 1, 5);
     /*
     0 jump
     0 big jump
@@ -45,7 +48,7 @@ public class Brain implements Cloneable {
         for (var x = 0; x < network.size() - 1; x++) //this is not going to be at the output layer and just that
             for (var y = 0; y < network.get(x).size(); y++) {
                 //I hate myself for writing this
-                network.get(x).get(y).addNewConnection(network.get(x + 1).get(rnd.nextInt(network.get(x + 1).size() - 1)));
+                network.get(x).get(y).addNewConnection(network.get(x + 1).get(rnd.nextInt(network.get(x + 1).size() )));
                 network.get(x).get(y).changeWeights();
                 network.get(x).get(y).changeBias();
             }
@@ -71,7 +74,7 @@ public class Brain implements Cloneable {
             return;
         }
         for(int i=0;i<input;i++)
-            network.get(0).get(i).input=x.get(i);
+            network.get(0).get(i).output=x.get(i);
 
     }
     public void clearNodes() {
@@ -86,8 +89,8 @@ public class Brain implements Cloneable {
         for (ArrayList<Node> nodes : network) //this is not going to be at the output layer and just that
             for (Node node : nodes)
 
-                for (Node conNode : node.connectedNodes) {
-                    node.connectedNodes.remove(conNode);
+                for (Node conNode : node.connections) {
+                    node.connections.remove(conNode);
                     node.addNewConnection(conNode);
 
 
@@ -96,21 +99,28 @@ public class Brain implements Cloneable {
 
     }
 
-    public void show(Graphics g, Game sc) {
-        g.setColor(Color.black);
+    public void show(Graphics2D g, Game sc) {
+        g.setFont(myFont);
         var width = sc.width - 20;
         var height = sc.height - 20;
         var separationWidth = width / network.size();
-        for (var nodes : network) {
-            var separationHeight = height / 3 / nodes.size();
-            for (var node : nodes) {
-                g.setColor(Color.black);
-                g.drawArc(node.layer * separationWidth, 10 + node.index * separationHeight, 5, 5, 5, 360);
-                g.drawString(""+node.output,node.layer*separationWidth,node.index*separationHeight);
-                for (Node nodeCon : node.connectedNodes) {
-                    g.setColor(Color.getHSBColor((float) (nodeCon.output * 360), 100, 50));
-                    g.drawLine(node.layer * separationWidth, 10 + node.index * separationHeight, nodeCon.layer * separationWidth, 10 + nodeCon.index * separationHeight);
+        var separationHeight= height/lengthOfHiddenLayers/3;
+        for (ArrayList<Node> nodes : network) {
+
+            for (Node node : nodes) {
+                ArrayList<Node> connections=node.connections;
+                ArrayList<Double> weights=node.weights;
+                for(int i=0;i<connections.size();i++) {
+                    g.setStroke(new BasicStroke(Math.abs (weights.get(i).floatValue()*1.5f)));
+                    g.setColor(Color.getHSBColor((float) (node.output * 360), 100, 50));
+                    g.drawLine(10+node.layer * separationWidth, 10 + node.index * separationHeight, 10+connections.get(i).layer * separationWidth, 10 + connections.get(i).index * separationHeight);
                 }
+                g.setColor(Color.blue);
+                g.setStroke(new BasicStroke(1));
+                g.drawArc(10+node.layer * separationWidth, 10 + node.index * separationHeight, 5, 5, 5, 360);
+                g.setColor(Color.black);
+                g.drawString((""+node.output),node.layer*separationWidth,node.index*separationHeight);
+
 
             }
         }
