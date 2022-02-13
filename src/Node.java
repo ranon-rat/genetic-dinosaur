@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Random;
 
 public class Node {
@@ -7,11 +7,12 @@ public class Node {
     double output = 0;
     double bias = 1;
     int layer;
+    int Y=0;
     ArrayList<Node> connectedNodes = new ArrayList<>();// this works as a pointer
-    List<Double> weightOfConnections;
+    ArrayList<Double> weightOfConnections=new ArrayList<>() ;
 
-    Node(int l){
-
+    Node(int l,int y){
+        Y=y;
         layer=l;
     }
     double sigmoid(double x) {

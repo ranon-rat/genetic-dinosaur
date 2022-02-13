@@ -8,15 +8,16 @@ public class Game {
     Dinosaur dino = new Dinosaur();
     // the list of possible obstacles for use it later
     String[] options = {"duck"};// {"big cactus","two big cactus","three big cactus","small cactus","two small cactus","three small cactus","duck"};
-
+    Brain b=new Brain();
     public void clean(Graphics g) {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, width, height);
     }
 
     public void update(Graphics g) {
-        clean(g);
-
+      //  clean(g);
+        b.show(g,this);
+/*
         g.setColor(Color.black);
         obs.show(g, height);
         dino.show(g, height);
@@ -32,7 +33,7 @@ public class Game {
         if (obs.x < -obs.width) {
             obs = new Obstacle(options[(int) (Math.random() * options.length)], width);
 
-        }
+        }*/
 
 
     }
