@@ -6,8 +6,8 @@ public class Node {
     double input = 0;
     double output = 0;
     double bias = 1;
-    int layer=0;
-    int index=0;
+    int layer;
+    int index;
     ArrayList<Node> connectedNodes = new ArrayList<>();// this works as a pointer
     ArrayList<Double> weightOfConnections=new ArrayList<>() ;
 

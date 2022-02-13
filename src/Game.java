@@ -1,9 +1,10 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Game {
     public int width = 400;
     public int height = 400;
-    // this is for testing for now, later i will generate more obstacles
+    // this is for testing for now, later I will generate more obstacles
     Obstacle obs = new Obstacle("duck", width);
     Dinosaur dino = new Dinosaur();
     // the list of possible obstacles for use it later
@@ -16,6 +17,13 @@ public class Game {
 
     public void update(Graphics g) {
       //  clean(g);
+        clean(g);
+        ArrayList<Double> input=new ArrayList<>();
+        for(int i=0;i<b.input;i++)
+            input.add(Math.random()*10);
+
+
+        b.result();
         b.show(g,this);
         /*
         g.setColor(Color.black);

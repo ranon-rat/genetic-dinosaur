@@ -33,7 +33,7 @@ public class Main {
             bs.show();
             try {
                 Thread.sleep(10);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
         }
         System.exit(0);

@@ -47,11 +47,33 @@ public class Brain implements Cloneable {
                 //I hate myself for writing this
                 network.get(x).get(y).addNewConnection(network.get(x + 1).get(rnd.nextInt(network.get(x + 1).size() - 1)));
                 network.get(x).get(y).changeWeights();
-                network.get(x).get(y).changeWeights();
+                network.get(x).get(y).changeBias();
             }
 
     }
+    public ArrayList<Double> result(){
+        ArrayList<Double> output=new ArrayList<>();
+        for (ArrayList<Node> nodes:network) //this is not going to be at the output layer and just that
+            for (Node node:nodes) {
+                node.engage();
 
+            }
+        for(Node node:network.get(layers-1))
+            output.add(node.output);
+
+        return output;
+
+
+    }
+    public void passToInput(ArrayList<Double> x){
+        if(x.size()!=input){
+            System.err.println("the input its different to the input that it should have");
+            return;
+        }
+        for(int i=0;i<input;i++)
+            network.get(0).get(i).input=x.get(i);
+
+    }
     public void clearNodes() {
         for (ArrayList<Node> nodes : network)
             for (Node node : nodes) node.clear();
@@ -82,10 +104,13 @@ public class Brain implements Cloneable {
         for (var nodes : network) {
             var separationHeight = height / 3 / nodes.size();
             for (var node : nodes) {
+                g.setColor(Color.black);
                 g.drawArc(node.layer * separationWidth, 10 + node.index * separationHeight, 5, 5, 5, 360);
-                for (var nodeCon : node.connectedNodes)
+                g.drawString(""+node.output,node.layer*separationWidth,node.index*separationHeight);
+                for (Node nodeCon : node.connectedNodes) {
+                    g.setColor(Color.getHSBColor((float) (nodeCon.output * 360), 100, 50));
                     g.drawLine(node.layer * separationWidth, 10 + node.index * separationHeight, nodeCon.layer * separationWidth, 10 + nodeCon.index * separationHeight);
-
+                }
 
             }
         }
