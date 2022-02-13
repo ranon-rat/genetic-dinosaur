@@ -30,7 +30,9 @@ public class Game {
             System.out.println(i);
         }
         b.passToInput(input);
+
         b.show(g, this);
+        b.clearNodes();
         /*
         g.setColor(Color.black);
         obs.show(g, height);
@@ -49,7 +51,7 @@ public class Game {
 
         }*/
         try {
-            Thread.sleep(66);
+            Thread.sleep(100);
         } catch (InterruptedException ignored) {
         }
 
