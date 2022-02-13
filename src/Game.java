@@ -26,13 +26,13 @@ public class Game {
         clean(g);
 
 
-        for (Double i : b.result()) {
-            System.out.println(i);
-        }
+        b.result();
+
         b.passToInput(input);
 
         b.show(g, this);
         b.clearNodes();
+        b.mutate();
         /*
         g.setColor(Color.black);
         obs.show(g, height);

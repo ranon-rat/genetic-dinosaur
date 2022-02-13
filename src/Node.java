@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-
 import java.util.Random;
 
 public class Node {
@@ -9,12 +8,13 @@ public class Node {
     int layer;
     int index;
     ArrayList<Node> connections = new ArrayList<>();// this works as a pointer
-    ArrayList<Double> weights=new ArrayList<>() ;
+    ArrayList<Double> weights = new ArrayList<>();
 
-    Node(int l,int i){
-        index=i;
-        layer=l;
+    Node(int l, int i) {
+        index = i;
+        layer = l;
     }
+
     double sigmoid(double x) {
         return 1 / (1 + Math.exp(-x));
     }
@@ -27,9 +27,10 @@ public class Node {
         else
             bias += rnd.nextGaussian();
     }
-    void clear(){
-        output=0;
-        input=0;
+
+    void clear() {
+        output = 0;
+        input = 0;
     }
 
     // I will save this as a pointer
@@ -46,11 +47,17 @@ public class Node {
 
     void changeWeights() {
         Random rnd = new Random();
-        for (int i = 0; i < weights.size(); i++)
+        for (int i = 0; i < weights.size(); i++) {
             if (Math.random() < 0.10)
                 weights.set(i, rnd.nextDouble() + rnd.nextDouble() * -1);
             else
                 weights.set(i, weights.get(i) + rnd.nextGaussian());
+
+            if (weights.get(i) > 1)
+                weights.set(i, 1d);
+            else if (weights.get(i) < -1)
+                weights.set(i, 1d);
+        }
     }
 
     void engage() {
