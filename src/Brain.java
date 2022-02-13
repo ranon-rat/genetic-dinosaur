@@ -18,30 +18,31 @@ public class Brain implements Cloneable {
     int input = 6;// length of input nodes
 
     /*
-    |width of obstacle         0| ---> 0 ---> 0 ---->\
-|   |distance of next obstacle 0| ---> 0 ---> 0 ----->\--->small jump
-    |height of obstacle        0| ---> 0 ---> 0 ------>\--> big jump
-    |y position of obstacle    0| ---> 0 ---> 0 ------>/--> duck
-    |speed                     0| ---> 0 ---> 0 ----->/
-    |player y pos              0| ---> 0 ---> 0 ---->/
+                            ///0| ---> 0 ---> 0 --->\
+    |width of obstacle     ////0| ---> 0 ---> 0 ---->\
+|   |distance of next obstacle/0| ---> 0 ---> 0 ----->\--->small jump
+    |height of obstacle  //////0| ---> 0 ---> 0 ------>\--> big jump
+    |y position of obstacle\\\\0| ---> 0 ---> 0 ------>/--> duck
+    |speed                \\\\\0| ---> 0 ---> 0 ----->/
+    |player y pos          \\\\0| ---> 0 ---> 0 ---->/
+                            \\\0| ---> 0 ---> 0 --->/
     */
 
     Brain() {
         Random rnd = new Random();
-
+        // first I add the layers
         for (var x = 0; x < layers; x++)
             network.add(new ArrayList<>());
-
-
-        //this will create a neural network , then I need to connect the nodes and all that stuff
+        //input
         for (var y = 0; y < input; y++)
             network.get(0).add(new Node(0, y));
+        //hidden layers
         for (var x = 1; x < layers - 1; x++)
             for (var y = 0; y < lengthOfHiddenLayers; y++)
                 network.get(x).add(new Node(x, y));
+        //output
         for (var y = 0; y < output; y++)
             network.get(layers - 1).add(new Node(layers - 1, y));
-
         //this should generate some connections
         for (var x = 0; x < layers - 1; x++) //this is not going to be at the output layer and just that
             for (var y = 0; y < network.get(x).size(); y++) {
@@ -50,22 +51,16 @@ public class Brain implements Cloneable {
                 network.get(x).get(y).changeWeights();
                 network.get(x).get(y).changeBias();
             }
-
     }
-
+    // you will get the result after finishing the operation
     public ArrayList<Double> result() {
         ArrayList<Double> output = new ArrayList<>();
         for (ArrayList<Node> nodes : network) //this is not going to be at the output layer and just that
             for (Node node : nodes)
-                node.engage();
-
-            
+                node.engage();//o(n2)
         for (Node node : network.get(layers - 1))
             output.add(node.output);
-
         return output;
-
-
     }
 
     public void passToInput(ArrayList<Double> x) {
@@ -85,7 +80,7 @@ public class Brain implements Cloneable {
 
     }
 
-    // maybe i should create a new connections
+    // maybe I should create a new connections
     public void mutate() {
         for (ArrayList<Node> nodes : network)
             for (Node node : nodes) {
@@ -99,25 +94,19 @@ public class Brain implements Cloneable {
     public void quitPointers() {
         for (ArrayList<Node> nodes : network) //this is not going to be at the output layer and just that
             for (Node node : nodes)
-
                 for (Node conNode : node.connections) {
                     node.connections.remove(conNode);
                     node.addNewConnection(conNode);
-
-
                 }
-
-
     }
 
     public void show(Graphics2D g, Game sc) {
         g.setFont(myFont);
         var width = sc.width - 20;
         var height = sc.height - 20;
-        var separationWidth = width / network.size();
+        var separationWidth = width / layers;
         var separationHeight = height / lengthOfHiddenLayers / 3;
-        for (ArrayList<Node> nodes : network) {
-
+        for (ArrayList<Node> nodes : network)
             for (Node node : nodes) {
                 ArrayList<Node> connections = node.connections;
                 ArrayList<Double> weights = node.weights;
@@ -131,11 +120,7 @@ public class Brain implements Cloneable {
                 g.drawArc(10 + node.layer * separationWidth, 10 + node.index * separationHeight, 5, 5, 5, 360);
                 g.setColor(Color.black);
                 g.drawString(("" + node.output), node.layer * separationWidth, node.index * separationHeight);
-
-
             }
-        }
-
     }
 
     public Object clone() throws CloneNotSupportedException {
