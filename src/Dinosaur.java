@@ -21,15 +21,15 @@ public class Dinosaur {
 
 
     Dinosaur() {
-
+        // this is for load the sprites
         for (int i = 1; i <= 4; i++) {
 
 
             dinoSprites.add(others.getImage("sprites/dino" + i + ".png"));
         }
-        dinoDie.add(others.getImage("sprites/dino5.png"));
-        dinoHunkerSprites.add(others.getImage("sprites/dino6.png"));
-        dinoHunkerSprites.add(others.getImage("sprites/dino7.png"));
+        dinoDie.add(others.getImage("sprites/dino5.png"));          //die
+        dinoHunkerSprites.add(others.getImage("sprites/dino6.png"));//duck
+        dinoHunkerSprites.add(others.getImage("sprites/dino7.png"));//duck
         actualSprite = dinoSprites;
 
 
@@ -50,8 +50,8 @@ public class Dinosaur {
 
 
     void duck() {
-        gravity = 2;
 
+        gravity = 2;// I change the gravity
         width = (int) (realWidth * 1.3409090909);
         height = (int) (realHeight * 0.6382978723);
         actualSprite = dinoHunkerSprites;
@@ -74,8 +74,9 @@ public class Dinosaur {
     void show(Graphics g, int screenHeight) {
 
         g.setColor(Color.black);
-        // g.fillRect(0,screenHeight - y - height - 30,width,height);
+        //this is just for make a movement animation
         g.drawImage(actualSprite.get(score % actualSprite.size()), 0, screenHeight - y - height - 30, width, height, null);
+
         moving();
         if (score % 4 == 0 && hunker) {
             hunker = false;

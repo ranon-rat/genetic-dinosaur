@@ -6,13 +6,13 @@ public class Node {
     double input = 0;
     double output = 0;
     double bias = 1;
-    int layer;
-    int Y=0;
+    int layer=0;
+    int index=0;
     ArrayList<Node> connectedNodes = new ArrayList<>();// this works as a pointer
     ArrayList<Double> weightOfConnections=new ArrayList<>() ;
 
-    Node(int l,int y){
-        Y=y;
+    Node(int l,int i){
+        index=i;
         layer=l;
     }
     double sigmoid(double x) {
@@ -26,8 +26,10 @@ public class Node {
             bias = rnd.nextDouble() + rnd.nextDouble() * -1;
         else
             bias += rnd.nextGaussian();
-
-
+    }
+    void clear(){
+        output=0;
+        input=0;
     }
 
     // I will save this as a pointer

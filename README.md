@@ -1,6 +1,6 @@
 # genetic dinosaur
 
-its a simple project that I still developing for 
+it's a simple project that I'm  developing for 
 understand in a more deep way how the neural networks work.
 
 the resources that I used for make this was:

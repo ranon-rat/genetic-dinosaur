@@ -8,7 +8,7 @@ public class Game {
     Dinosaur dino = new Dinosaur();
     // the list of possible obstacles for use it later
     String[] options = {"duck"};// {"big cactus","two big cactus","three big cactus","small cactus","two small cactus","three small cactus","duck"};
-    Brain b=new Brain();
+    Brain b=new Brain();//when I create the population I will delete this
     public void clean(Graphics g) {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, width, height);
@@ -17,7 +17,7 @@ public class Game {
     public void update(Graphics g) {
       //  clean(g);
         b.show(g,this);
-/*
+        /*
         g.setColor(Color.black);
         obs.show(g, height);
         dino.show(g, height);
