@@ -7,14 +7,16 @@ public class Brain {
 
     ArrayList<Node> network = new ArrayList<>();// simple neural network
     ArrayList<Integer> lengths = new ArrayList<>();// this is for know the length of each layer
-
+    ArrayList<Color> colors = new ArrayList<>();
     Font myFont = new Font("Courier New", Font.BOLD, 8);
 
     Random rnd = new Random();
 
     int hiddenLayers = 3,// 3 hidden layers
             lengthOfHiddenLayers = 8,
-            output = 3,// length of output nodes
+            output = 3,
+
+    // length of output nodes
 
     /*
     0 jump
@@ -35,6 +37,11 @@ public class Brain {
 
 
     Brain() {
+        colors.add(Color.black);
+        colors.add(Color.black);
+        colors.add(Color.black);
+
+
         Random rnd = new Random();
         // first I add the layers
 
@@ -174,13 +181,11 @@ public class Brain {
 
     }
 
-    public void show(Graphics2D g, Game sc) {
+    public void show(Graphics2D g, Game screen) {
         g.setFont(myFont);
-        var width = sc.width - 20;
-        var height = sc.height - 20;
-        var separationWidth = width / (hiddenLayers + 2);
-        var separationHeight = height / lengthOfHiddenLayers / 3;
-
+        // the separation that each node is going to have
+        int separationLayer = screen.width / (hiddenLayers + 2);
+        int separationNode = screen.height / lengthOfHiddenLayers / 3;
         for (Node node : network) {
 
             ArrayList<Node> connections = node.connections;
@@ -190,13 +195,18 @@ public class Brain {
 
                 g.setStroke(new BasicStroke(Math.abs(weights.get(i).floatValue() * 2f)));
                 g.setColor(Color.getHSBColor((float) (node.output * 210) + 150, 100, 50));
-                g.drawLine(40 + node.layer * separationWidth, 40 + node.index * separationHeight, 40 + connections.get(i).layer * separationWidth, 40 + 2 + connections.get(i).index * separationHeight);
+                g.drawLine(40 + node.layer * separationLayer, 40 + node.index * separationNode, 40 + connections.get(i).layer * separationLayer, 40 + 2 + connections.get(i).index * separationNode);
+            }
+            if (node.last) {
+                g.setColor(Color.getHSBColor(242, 100, (float) (50 * node.output)));
             }
             //just show the node
-            g.setColor(Color.getHSBColor((float) (node.output * 210) + 150, 100, 50));;
-            g.fillArc(40 + node.layer * separationWidth, 40 + node.index * separationHeight, 5, 5, 5, 360);
+            g.setColor(Color.getHSBColor((float) (node.output * 210) + 150, 100, 50));
+
+            g.fillArc(40 + node.layer * separationLayer, 40 + node.index * separationNode, 5, 5, 5, 360);
             g.setColor(Color.black);
-            g.drawString(node.name, node.layer * separationWidth+30, node.index * separationHeight+30);
+            g.drawString(node.name, node.layer * separationLayer + 30, node.index * separationNode + 30);
+            g.drawArc(40 + node.layer * separationLayer, 40 + node.index * separationNode, 5, 5, 5, 360);
 
 
         }

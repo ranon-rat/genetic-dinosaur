@@ -5,8 +5,9 @@ import java.awt.image.BufferStrategy;
 public class Main {
     static boolean running = true;
     static Canvas canvas = new Canvas();
-    static Game screen = new Game();
+
     static Graphics2D g;
+    static Game screen = new Game();
     static BufferStrategy bs;
     static JFrame frame;
 
@@ -26,6 +27,7 @@ public class Main {
     }
 
     static public void start() {
+        g = (Graphics2D) bs.getDrawGraphics();
        while (running) {
             g = (Graphics2D) bs.getDrawGraphics();
             screen.update(g);

@@ -22,7 +22,7 @@ public class Dinosaur {
 
     Dinosaur() {
         // this is for load the sprites
-        for (int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= 3; i++) {
 
 
             dinoSprites.add(others.getImage("sprites/dino" + i + ".png"));
@@ -82,7 +82,6 @@ public class Dinosaur {
         g.setColor(Color.black);
         //this is just for make a movement animation
         g.drawImage(actualSprite.get(score % actualSprite.size()), 0, screen.width - y - height - 30, width, height, null);
-
 
 
     }

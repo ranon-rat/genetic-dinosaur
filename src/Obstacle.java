@@ -65,7 +65,7 @@ public class Obstacle {
 
         // g.fillRect(x, screenHeight - y - height - 30, width, height);
 
-        g.drawImage(sprite.get(Math.abs(x % sprite.size())), x, screen.height - y - height - 30, width, height, null);
+        g.drawImage(sprite.get(Math.abs(x % sprite.size())), x, screen.height - y - height -30, width, height, null);
         x -= movePerFrame;
 
 

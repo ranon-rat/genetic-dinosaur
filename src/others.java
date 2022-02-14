@@ -16,22 +16,25 @@ class Layers {
 }
 
 public class others {
-    public static ArrayList<Subject> bubbleSort(ArrayList<Subject> subjects) {
+    public static void bubbleSort(ArrayList<Subject> subjects) {
 
         for (int i = subjects.size(); i > 0; i--) {
             boolean noSwap = true;
             for (int j = 0; j < i - 1; j++) {
                 Subject sub1 = subjects.get(j);
                 Subject sub2 = subjects.get(j + 1);
-                if (sub2.dino.score > sub1.dino.score) {
+                if (sub2.dino.score < sub1.dino.score) {
                     noSwap = false;
                     subjects.set(j + 1, sub1);
                     subjects.set(j, sub2);
+                    subjects.get(j).death=sub1.death;
+                    subjects.get(j+1).death=sub2.death;
+
                 }
             }
             if (noSwap) break;
         }
-        return subjects;
+
 
     }
 

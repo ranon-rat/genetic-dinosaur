@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Node {
-    String name = "";
+    String name ;
     boolean last = false;
     double input = 0;
     double output = 0;
