@@ -22,7 +22,6 @@ class Subject implements Cloneable {
     void doSomething(Obstacle obstacle) {
 
         if (death) {
-            dino.actualSprite = dino.dinoDie;
             return;
         }
         death = obstacle.isOnArea(dino);
@@ -53,8 +52,8 @@ class Subject implements Cloneable {
             dino.jump(true);
         else if (output.get(2) > 0.8) //duck
             dino.duck();
-
-
+        ArrayList<Node> net=brain.network;
+        System.out.println(net.get(net.size()-1).last +" " +net.get(net.size()-2).last+" "+net.get(net.size()-3).last);
         dino.moving();
 
     }

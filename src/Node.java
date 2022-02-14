@@ -60,7 +60,8 @@ public class Node {
 
     void engage() {
 
-        if ((nodesConnectedToThis == 0 || connections.size() == 0) && (layer != 0 || !last)) return;
+
+        if ((nodesConnectedToThis == 0 || connections.size() == 0) && (layer != 0 && !last)) return;
         if (layer != 0)
             output = sigmoid(input + bias);
 
