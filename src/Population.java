@@ -16,6 +16,7 @@ public class Population {
     }
 
     void doSomething(Obstacle obs, Graphics2D g, Game screen) {
+        int howManyDie = 0;
         for (Subject subject : subjects) {
 
             subject.doSomething(obs);
