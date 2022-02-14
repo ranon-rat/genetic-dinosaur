@@ -3,13 +3,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-
-public class Brain implements Cloneable {
+public class Brain {
 
     ArrayList<Node> network = new ArrayList<>();// simple neural network
     ArrayList<Integer> lengths = new ArrayList<>();// this is for know the length of each layer
 
-    Font myFont = new Font("Courier New", Font.BOLD, 5);
+    Font myFont = new Font("Courier New", Font.BOLD, 8);
 
     Random rnd = new Random();
 
@@ -47,7 +46,7 @@ public class Brain implements Cloneable {
         for (Layers l : layers) {
             for (int layer = l.start; layer < l.loop; layer++) {
                 for (int index = 0; index < l.length; index++) {
-                    network.add(new Node(layer, index, min + index,""+index));
+                    network.add(new Node(layer, index, min + index, "" + index));
                 }
                 min += l.length;
                 lengths.add(l.length);
@@ -81,9 +80,9 @@ public class Brain implements Cloneable {
 
 
         }
-       for(Node output: network.subList(network.size()-output,network.size())){
-           output.last=true;
-       }
+        for (Node output : network.subList(network.size() - output, network.size())) {
+            output.last = true;
+        }
 
 
     }
@@ -93,10 +92,11 @@ public class Brain implements Cloneable {
     public ArrayList<Double> result() {
         ArrayList<Double> out = new ArrayList<>();
         for (Node node : network) //this is not going to be at the output layer and just that
-            if(node.nodesConnectedToThis!=0 ||node.connections.size()!=0 || node.layer == 0 )
+            if (node.connections.size() != 0 && (node.nodesConnectedToThis != 0 || node.layer == 0)) {
                 node.engage();
-        for (Node node : network.subList(network.size()-output, network.size()))
-            out.add(node.sigmoid(node.input+node.bias));
+            }
+        for (Node node : network.subList(network.size() - output, network.size()))
+            out.add(node.sigmoid(node.input + node.bias));
 
 
         return out;
@@ -108,7 +108,7 @@ public class Brain implements Cloneable {
             return;
         }
         for (int i = 0; i < input; i++)
-            network.get(i).output = x.get(i);
+            network.get(i).input = x.get(i);
 
     }
 
@@ -142,8 +142,6 @@ public class Brain implements Cloneable {
             );
 
 
-
-
         }
         if (rnd.nextDouble() < 0.5 && n.connections.size() > 1 && (n.nodesConnectedToThis > 0 || n.layer == 0)) {
             Node randomNode = n.connections.get(rnd.nextInt(n.connections.size()));
@@ -156,12 +154,27 @@ public class Brain implements Cloneable {
 
     // I hate java
     // execute this function after clone this object
-    public void quitPointers() {
-        for (Node node : network) //this is not going to be at the output layer and just that
-            for (Node conNode : node.connections) {
-                node.connections.remove(conNode);
-                node.addNewConnection(conNode);
+    public void quitReferences() {
+
+        for (Node node : network) {
+            ArrayList<Integer> tempPos = new ArrayList<>();
+            ArrayList<Double> weights = new ArrayList<>();
+
+            for (int i = 0; i < node.connections.size(); i++) {
+                tempPos.add(node.connections.get(i).n);
+                weights.add(node.weights.get(i));
+                node.connections.remove(i);
+
             }
+            for (Integer tempPo : tempPos) {
+                node.connections.add(network.get(tempPo));
+                node.weights = weights;
+
+
+            }
+
+        }
+
     }
 
     public void show(Graphics2D g, Game sc) {
@@ -172,30 +185,25 @@ public class Brain implements Cloneable {
         var separationHeight = height / lengthOfHiddenLayers / 3;
 
         for (Node node : network) {
-            if(node.nodesConnectedToThis == 0 && node.layer != 0)continue;
+
             ArrayList<Node> connections = node.connections;
             ArrayList<Double> weights = node.weights;
 
-            for (int i = 0; i < connections.size()&&connections.size()>0 ; i++) {
+            for (int i = 0; i < connections.size() && connections.size() != 0 && (node.nodesConnectedToThis != 0 || node.layer == 0); i++) {
 
                 g.setStroke(new BasicStroke(Math.abs(weights.get(i).floatValue() * 2f)));
-                g.setColor(Color.getHSBColor((float) (node.output * 360), 100, 50));
+                g.setColor(Color.getHSBColor((float) (node.output * 260) + 100, 100, 50));
                 g.drawLine(10 + node.layer * separationWidth, 10 + node.index * separationHeight, 10 + connections.get(i).layer * separationWidth, 10 + 2 + connections.get(i).index * separationHeight);
             }
-
+            //just show the node
             g.setColor(Color.black);
-            g.setStroke(new BasicStroke(1));
-            g.drawArc(10 + node.layer * separationWidth, 10 + node.index * separationHeight, 5, 5, 5, 360);
 
+            g.drawArc(10 + node.layer * separationWidth, 10 + node.index * separationHeight, 5, 5, 5, 360);
             g.drawString(node.name, node.layer * separationWidth, node.index * separationHeight);
-            g.drawString(node.output+"", node.layer * separationWidth, node.index * separationHeight-10);
+
 
         }
     }
 
-    public Object clone() throws CloneNotSupportedException {
-        clearNodes();
-        return super.clone();
-    }
 
 }
