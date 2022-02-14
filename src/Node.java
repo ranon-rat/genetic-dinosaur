@@ -66,7 +66,7 @@ public class Node {
 
         //yeah, it works I think
         for (int i = 0; i < connections.size(); i++) {
-            System.out.println(weights.size()+" "+n);
+
             if (connections.get(i).connections.size() != 0 || connections.get(i).last)
                 connections.get(i).input += output * weights.get(i);
         }

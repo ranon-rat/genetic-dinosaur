@@ -47,11 +47,11 @@ class Subject implements Cloneable {
         brain.passToInput(input);
         //then I get the result
        ArrayList<Double> output= brain.result();
-      if( output.get(0)>70){
+      if( output.get(0)>0.8){
           dino.jump(false);
-      }else if(output.get(1)>70){
+      }else if(output.get(1)>0.8){
           dino.jump(true);
-      }else if(output.get(2)>70){
+      }else if(output.get(2)>0.8){
           dino.duck();
       }
       dino.moving();

@@ -158,20 +158,17 @@ public class Brain {
 
         for (Node node : network) {
             ArrayList<Integer> tempPos = new ArrayList<>();
-            ArrayList<Double> weights = new ArrayList<>();
+
 
             for (int i = 0; i < node.connections.size(); i++) {
                 tempPos.add(node.connections.get(i).n);
-                weights.add(node.weights.get(i));
                 node.connections.remove(i);
-
             }
             for (Integer tempPo : tempPos) {
                 node.connections.add(network.get(tempPo));
-                node.weights = weights;
-
 
             }
+
 
         }
 
@@ -192,14 +189,14 @@ public class Brain {
             for (int i = 0; i < connections.size() && connections.size() != 0 && (node.nodesConnectedToThis != 0 || node.layer == 0); i++) {
 
                 g.setStroke(new BasicStroke(Math.abs(weights.get(i).floatValue() * 2f)));
-                g.setColor(Color.getHSBColor((float) (node.output * 260) + 100, 100, 50));
-                g.drawLine(10 + node.layer * separationWidth, 10 + node.index * separationHeight, 10 + connections.get(i).layer * separationWidth, 10 + 2 + connections.get(i).index * separationHeight);
+                g.setColor(Color.getHSBColor((float) (node.output * 210) + 150, 100, 50));
+                g.drawLine(30 + node.layer * separationWidth, 30 + node.index * separationHeight, 30 + connections.get(i).layer * separationWidth, 30 + 2 + connections.get(i).index * separationHeight);
             }
             //just show the node
             g.setColor(Color.black);
 
-            g.drawArc(10 + node.layer * separationWidth, 10 + node.index * separationHeight, 5, 5, 5, 360);
-            g.drawString(node.name, node.layer * separationWidth, node.index * separationHeight);
+            g.drawArc(30 + node.layer * separationWidth, 30 + node.index * separationHeight, 5, 5, 5, 360);
+            g.drawString(node.name, node.layer * separationWidth+20, node.index * separationHeight+20);
 
 
         }

@@ -5,6 +5,7 @@ public class Population {
     ArrayList<Subject> subjects=new ArrayList<>();
     int howManyDie = 0;
     int epoch=0;
+    int lastBestScore=0;
 
     Population(int howMany) {
         for (int i = 0; i < howMany; i++) {
@@ -16,7 +17,7 @@ public class Population {
 
     void doSomething(Obstacle obs, Graphics2D g,Game screen) {
         for (Subject subject : subjects) {
-            System.out.print(subject.brain.network.size()+" ");
+            System.out.print(subject.death+" ");
             subject.doSomething(obs);
 
             if (subject.death) {
@@ -25,11 +26,14 @@ public class Population {
 
         }
         System.out.println();
-        subjects.sort(new Compare());
-
+       others.bubbleSort(subjects);
+        g.drawString(""+epoch,screen.width-30,20);
+        g.drawString(""+lastBestScore,screen.width/2,20);
+        g.drawString(""+subjects.get(0).dino.score,0,20);
         subjects.get(0).show(g,screen);
-        if (howManyDie == subjects.size()) {
-            obs.x=screen.width;
+
+        if (howManyDie >= subjects.size()) {
+            obs.x= -obs.width;
             System.out.println(epoch);
             Subject theBest = subjects.get(0);
             howManyDie = 0;

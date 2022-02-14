@@ -2,16 +2,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.Comparator;
-class Compare implements   Comparator<Subject>{
-    public int compare(Subject a ,Subject b){
-        if(a.dino.score<b.dino.score)return -1;
-        if(a.dino.score>b.dino.score)return 1;
-        return 0;
+import java.util.ArrayList;
 
-    }
-
-}
 class Layers {
     int length, loop, start;
 
@@ -24,6 +16,25 @@ class Layers {
 }
 
 public class others {
+    public static ArrayList<Subject> bubbleSort(ArrayList<Subject> subjects) {
+
+        for (int i = subjects.size(); i > 0; i--) {
+            boolean noSwap = true;
+            for (int j = 0; j < i - 1; j++) {
+                Subject sub1 = subjects.get(j);
+                Subject sub2 = subjects.get(j + 1);
+                if (sub2.dino.score > sub1.dino.score) {
+                    noSwap = false;
+                    subjects.set(j + 1, sub1);
+                    subjects.set(j, sub2);
+                }
+            }
+            if (noSwap) break;
+        }
+        return subjects;
+
+    }
+
     public static Image getImage(String path) {
         try {
             File pathToFile = new File(path);
