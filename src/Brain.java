@@ -190,13 +190,13 @@ public class Brain {
 
                 g.setStroke(new BasicStroke(Math.abs(weights.get(i).floatValue() * 2f)));
                 g.setColor(Color.getHSBColor((float) (node.output * 210) + 150, 100, 50));
-                g.drawLine(30 + node.layer * separationWidth, 30 + node.index * separationHeight, 30 + connections.get(i).layer * separationWidth, 30 + 2 + connections.get(i).index * separationHeight);
+                g.drawLine(40 + node.layer * separationWidth, 40 + node.index * separationHeight, 40 + connections.get(i).layer * separationWidth, 40 + 2 + connections.get(i).index * separationHeight);
             }
             //just show the node
+            g.setColor(Color.getHSBColor((float) (node.output * 210) + 150, 100, 50));;
+            g.fillArc(40 + node.layer * separationWidth, 40 + node.index * separationHeight, 5, 5, 5, 360);
             g.setColor(Color.black);
-
-            g.drawArc(30 + node.layer * separationWidth, 30 + node.index * separationHeight, 5, 5, 5, 360);
-            g.drawString(node.name, node.layer * separationWidth+20, node.index * separationHeight+20);
+            g.drawString(node.name, node.layer * separationWidth+30, node.index * separationHeight+30);
 
 
         }

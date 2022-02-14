@@ -5,6 +5,7 @@ class Subject implements Cloneable {
     Brain brain=new Brain();
     Dinosaur dino=new Dinosaur();
     String[] names={"width","height","distance","y obstacle","speed","y player"};
+    String name;
     boolean death=false;
     /*
                              ///0| ---> 0 ---> 0 --->\
@@ -16,7 +17,8 @@ class Subject implements Cloneable {
      |player y pos          \\\\0| ---> 0 ---> 0 ---->/
                              \\\0| ---> 0 ---> 0 --->/
     */
-    Subject(){
+    Subject(String name){
+        this.name=name;
         for(int i=0;i<names.length;i++){
             brain.network.get(i).name=names[i];
         }

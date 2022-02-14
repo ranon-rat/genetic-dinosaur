@@ -16,9 +16,7 @@ public class Game {
         g.fillRect(0, 0, width, height);
     }
 
-    Game() {
 
-    }
 
 
     public void update(Graphics2D g) {

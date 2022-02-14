@@ -10,7 +10,7 @@ public class Population {
     Population(int howMany) {
         for (int i = 0; i < howMany; i++) {
 
-            subjects.add(new Subject());
+            subjects.add(new Subject(""+i));
         }
 
     }
@@ -30,6 +30,7 @@ public class Population {
         g.drawString(""+epoch,screen.width-30,20);
         g.drawString(""+lastBestScore,screen.width/2,20);
         g.drawString(""+subjects.get(0).dino.score,0,20);
+        g.drawString(subjects.get(0).name, screen.width/2, 50);
         subjects.get(0).show(g,screen);
 
         if (howManyDie >= subjects.size()) {
