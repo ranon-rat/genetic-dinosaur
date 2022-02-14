@@ -6,7 +6,7 @@ public class Game {
 
     // this is for testing for now, later I will generate more obstacles
     Obstacle obs = new Obstacle("duck", this);
-    Population population = new Population(1);
+    Population population = new Population(5);
     // the list of possible obstacles for use it later
     String[] options = {"big cactus", "two big cactus", "three big cactus", "small cactus", "two small cactus", "three small cactus", "duck"};
 

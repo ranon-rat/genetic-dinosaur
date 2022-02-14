@@ -7,11 +7,10 @@ public class Node {
     double input = 0;
     double output = 0;
     double bias = 1;
-
     int nodesConnectedToThis = 0;
     int layer;
     int index;
-    int n;
+    int n;// number in the neural network
 
     ArrayList<Node> connections = new ArrayList<>();// this works as a pointer
     ArrayList<Double> weights = new ArrayList<>();
@@ -24,18 +23,34 @@ public class Node {
         this.name = name;
 
     }
-
+    // It's just for try to reduce the output to a range of 1 and 0
     double sigmoid(double x) {
         return 1 / (1 + Math.exp(-x));
     }
 
-
+    // I just clear the output and the input
     void clear() {
         this.output = 0;
         this.input = 0;
     }
 
-    // I will save this as a pointer
+
+
+    void engage() {
+
+
+
+        if (layer != 0)
+            output = sigmoid(input + bias);
+
+        //yeah, it works I think
+        for (int i = 0; i < connections.size(); i++) {
+            if (connections.get(i).connections.size() != 0 || connections.get(i).last)
+                connections.get(i).input += output * weights.get(i);
+        }
+
+    }
+    // I will save this as a reference to a Node
     void addNewConnection(Node newCon) {
 
         if (!connections.contains(newCon)) {
@@ -46,31 +61,13 @@ public class Node {
 
 
     }
-
     void changeBias() {
 
 
-        if (rnd.nextDouble() < 0.10)
+        if (rnd.nextDouble() < 0.10)//10% of probability of change the bias completaly
             bias = rnd.nextDouble() + rnd.nextDouble() * -1;
         else
             bias += rnd.nextGaussian();
-        if (bias > 1)
-            bias = 0;
-    }
-
-    void engage() {
-
-
-        if ((nodesConnectedToThis == 0 || connections.size() == 0) && (layer != 0 && !last)) return;
-        if (layer != 0)
-            output = sigmoid(input + bias);
-
-        //yeah, it works I think
-        for (int i = 0; i < connections.size(); i++) {
-
-            if (connections.get(i).connections.size() != 0 || connections.get(i).last)
-                connections.get(i).input += output * weights.get(i);
-        }
 
     }
 

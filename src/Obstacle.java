@@ -68,9 +68,9 @@ public class Obstacle {
         x -= movePerFrame;
 
      /*
+     * x0000
      * 00000
      * 00000
-     * i0000
      * */
     }
 

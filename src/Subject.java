@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.util.ArrayList;
 
-class Subject implements Cloneable {
+class Subject  {
     Brain brain;
     Dinosaur dino = new Dinosaur();
     String[] names = {"width", "height", "distance", "y obstacle", "speed", "y player"};
@@ -53,7 +53,7 @@ class Subject implements Cloneable {
         else if (output.get(2) > 0.8) //duck
             dino.duck();
         ArrayList<Node> net=brain.network;
-        System.out.println(net.get(net.size()-1).last +" " +net.get(net.size()-2).last+" "+net.get(net.size()-3).last);
+
         dino.moving();
 
     }
@@ -66,10 +66,5 @@ class Subject implements Cloneable {
 
     }
 
-    public Object clone() throws CloneNotSupportedException {
-        death = false;
-        dino.score = 0;
-        brain.clearNodes();
-        return super.clone();
-    }
+
 }

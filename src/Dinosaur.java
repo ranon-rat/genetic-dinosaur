@@ -37,7 +37,7 @@ public class Dinosaur {
 
     void jump(boolean bigJump) {
         if (y == 0) {
-            gravity = 0.25f;
+            gravity = 0.30f;
             if (bigJump) {
 
                 velY = 10;

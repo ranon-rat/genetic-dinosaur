@@ -8,6 +8,7 @@ public class Brain {
     ArrayList<Node> network = new ArrayList<>();// simple neural network
     ArrayList<Integer> lengths = new ArrayList<>();// this is for know the length of each layer
     ArrayList<Color> colors = new ArrayList<>();
+
     Font myFont = new Font("Courier New", Font.BOLD, 8);
 
     Random rnd = new Random();
@@ -73,8 +74,8 @@ public class Brain {
                 if (network.get(pos).nodesConnectedToThis == 0 && network.get(0).layer != 0) {
                     continue;
                 }
-                int randomPos = min + lengths.get(layer) + rnd.nextInt(lengths.get(layer + 1));
-                Node randomNode = network.get(randomPos);
+
+                Node randomNode = network.get(min + lengths.get(layer) + rnd.nextInt(lengths.get(layer + 1)));
                 randomNode.nodesConnectedToThis++;
                 Node n = network.get(pos);
                 n.addNewConnection(
@@ -99,7 +100,7 @@ public class Brain {
     public ArrayList<Double> result() {
         ArrayList<Double> out = new ArrayList<>();
         for (Node node : network) //this is not going to be at the output layer and just that
-            if ((node.connections.size() != 0 && node.nodesConnectedToThis != 0 )|| node.layer == 0||node.last)
+            if ((node.connections.size() != 0 && node.nodesConnectedToThis != 0) || node.layer == 0 || node.last)
                 node.engage();
 
         for (Node node : network.subList(network.size() - output, network.size()))
@@ -160,24 +161,25 @@ public class Brain {
     }
 
     // I hate java
-    // execute this function after clone this object
-    public void quitReferences() {
 
-        for (Node node : network) {
-            ArrayList<Integer> tempPos = new ArrayList<>();
+    public void copyOtherBrain(Brain otherBrain) {
+
+        for (int i = 0; i < network.size(); i++) {
+            network.get(i).connections = new ArrayList<>();
+            network.get(i).weights=new ArrayList<>();
+            Node node=otherBrain.network.get(i);
 
 
-            for (int i = 0; i < node.connections.size(); i++) {
-                tempPos.add(node.connections.get(i).n);
-                node.connections.remove(i);
+
+            for (int j = 0; j < otherBrain.network.get(i).connections.size(); j++) {
+                network.get(i).weights.add(node.weights.get(j) );
+                network.get(i).connections.add(network.get(node.connections.get(j).n));
+
+
             }
-            for (Integer tempPo : tempPos) {
-                node.connections.add(network.get(tempPo));
-
-            }
-
 
         }
+
 
     }
 

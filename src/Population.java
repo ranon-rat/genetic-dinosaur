@@ -3,58 +3,47 @@ import java.util.ArrayList;
 
 public class Population {
     ArrayList<Subject> subjects = new ArrayList<>();
-    int howManyDie = 0;
+
     int epoch = 0;
     int lastBestScore = 0;
 
     Population(int howMany) {
         for (int i = 0; i < howMany; i++) {
 
-            subjects.add(new Subject(i+""));
+            subjects.add(new Subject(i + ""));
         }
 
     }
 
     void doSomething(Obstacle obs, Graphics2D g, Game screen) {
         for (Subject subject : subjects) {
-            System.out.print(subject.death+" "+subject.dino.score+" ; ");
-            subject.doSomething(obs);
 
+            subject.doSomething(obs);
+            System.out.print(subject.dino.score + " , " + subject.death + " ; ");
             if (subject.death) {
                 howManyDie++;
             }
-
         }
-
         System.out.println();
-        others.bubbleSort(subjects);
+        Subject bestOne = others.getBigger(subjects);//this is for get the better one
+
         g.drawString("" + epoch, screen.width - 30, 20);
         g.drawString("" + lastBestScore, screen.width / 2, 20);
         g.drawString("" + subjects.get(0).dino.score, 0, 20);
-        g.drawString(subjects.get(0).name, screen.width / 2, 50);
-        subjects.get(0).show(g, screen);
+        g.drawString(bestOne.name, screen.width / 2, screen.height / 2);
+        bestOne.show(g, screen);
 
         if (howManyDie >= subjects.size()) {
             obs.x = -obs.width;
-
-            Subject theBest = subjects.get(0);
-            lastBestScore=theBest.dino.score;
-            howManyDie = 0;
+            lastBestScore = bestOne.dino.score;
             epoch++;
-            System.out.println(subjects.get(0).name);
 
-            for (int i = 0; i < subjects.size(); i++) {
-                try {
-
-                    subjects.set(i, (Subject) theBest.clone());
-                    subjects.get(i).brain.quitReferences();
-                    subjects.get(i).brain.mutate();
-                } catch (CloneNotSupportedException e
-                ) {
-                    e.printStackTrace();
-                }
-
-
+            for (Subject subject : subjects) {
+                subject.brain.copyOtherBrain(bestOne.brain);
+                subject.brain.mutate();
+                subject.death = false;
+                subject.dino.score = 0;
+                subject.brain.clearNodes();
             }
 
         }
