@@ -75,8 +75,8 @@ public class Obstacle {
     public boolean isOnArea(Dinosaur dino) {
 
         return  dino.width           >= this.x &&
-                dino.width           <= this.x + this.width &&
-                dino.y  >= this.y &&
-                dino.y + dino.height <= this.y+ this.height;
+                0         <= this.x + this.width &&
+                dino.y+ dino.height  >= this.y &&
+                dino.y  <= this.y+ this.height;
     }
 }

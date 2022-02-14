@@ -138,6 +138,7 @@ public class Brain {
 
         }
         Node n = network.get(rnd.nextInt(network.size() - output));
+        // this add
         if (rnd.nextDouble() < 0.1 && n.connections.size() < lengths.get(n.layer) && (n.nodesConnectedToThis > 0 || n.layer == 0)) {
             int min = 0;
             for (int i : lengths.subList(0, n.layer)) min += i;
@@ -151,7 +152,8 @@ public class Brain {
 
 
         }
-        if (rnd.nextDouble() < 0.5 && n.connections.size() > 1 && (n.nodesConnectedToThis > 0 || n.layer == 0)) {
+        //this remove
+        if (rnd.nextDouble() < 0.05 && n.connections.size() > 2 && (n.nodesConnectedToThis > 0 || n.layer== 0)) {
             Node randomNode = n.connections.get(rnd.nextInt(n.connections.size()));
             randomNode.nodesConnectedToThis--;
             n.connections.remove(rnd.nextInt(n.connections.size()));
