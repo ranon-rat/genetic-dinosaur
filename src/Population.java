@@ -34,7 +34,7 @@ public class Population {
         g.drawString(bestOne.name, screen.width / 2, screen.height / 2);
         bestOne.show(g, screen);
 
-        if (howManyDie >= subjects.size()) {
+        if (howManyDie == subjects.size()) {
             obs.x = -obs.width;
             lastBestScore = bestOne.dino.score;
             epoch++;

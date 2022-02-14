@@ -101,7 +101,9 @@ public class Brain {
         ArrayList<Double> out = new ArrayList<>();
         for (Node node : network) //this is not going to be at the output layer and just that
             if ((node.connections.size() != 0 && node.nodesConnectedToThis != 0) || node.layer == 0 || node.last)
+
                 node.engage();
+
 
         for (Node node : network.subList(network.size() - output, network.size()))
             out.add(node.output);
@@ -153,7 +155,7 @@ public class Brain {
 
         }
         //this remove
-        if (rnd.nextDouble() < 0.05 && n.connections.size() > 2 && (n.nodesConnectedToThis > 0 || n.layer== 0)) {
+        if (rnd.nextDouble() < 0.05 && n.connections.size() > 2 && (n.nodesConnectedToThis > 0 || n.layer == 0)) {
             Node randomNode = n.connections.get(rnd.nextInt(n.connections.size()));
             randomNode.nodesConnectedToThis--;
             n.connections.remove(rnd.nextInt(n.connections.size()));
@@ -166,14 +168,17 @@ public class Brain {
 
     public void copyOtherBrain(Brain otherBrain) {
 
-        for (int i = 0; i < network.size(); i++) {
 
-            Node node=otherBrain.network.get(i);
+        for (int n = 0; n < network.size(); n++) {
+            network.get(n).weights=new ArrayList<>();
+            network.get(n).connections=new ArrayList<>();
+            Node node = otherBrain.network.get(n);
 
-            for (int j = 0; j < node.connections.size(); j++) {
+            for (int c = 0; c < node.connections.size(); c++) {
+                System.out.println(c + " " + node.connections.size());
+                network.get(n).connections.add( network.get(node.connections.get(n).n));
 
-                network.get(i).connections.set(j,network.get(node.connections.get(j).n));
-                network.get(i).weights.set(j,node.weights.get(j));
+                network.get(n).weights.add( node.weights.get(c));
 
             }
 
@@ -211,7 +216,7 @@ public class Brain {
 
             //and then the name
             g.drawString(node.name, node.layer * separationLayer + 30, node.index * separationNode + 30);
-
+            g.drawString(node.input+"", node.layer * separationLayer + 50, node.index * separationNode + 40);
 
         }
     }

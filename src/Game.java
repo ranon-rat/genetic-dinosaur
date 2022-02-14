@@ -11,7 +11,7 @@ public class Game {
     String[] options = {"big cactus", "two big cactus", "three big cactus", "small cactus", "two small cactus", "three small cactus", "duck"};
 
     public void clean(Graphics g) {
-        g.setColor(Color.WHITE);
+        g.setColor(Color.white);
         g.fillRect(0, 0, width, height);
     }
 

@@ -40,7 +40,6 @@ public class Node {
 
 
 
-        if (layer != 0)
             output = sigmoid(input + bias);
 
         //yeah, it works I think
