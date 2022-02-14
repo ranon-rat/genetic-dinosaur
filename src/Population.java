@@ -39,12 +39,13 @@ public class Population {
             lastBestScore = bestOne.dino.score;
             epoch++;
 
-            for (Subject subject : subjects.subList(1,subjects.size())) {
-                subject.brain.copyOtherBrain(bestOne.brain);
-                subject.brain.mutate();
+            for (Subject subject : subjects) {
                 subject.death = false;
                 subject.dino.score = 0;
                 subject.brain.clearNodes();
+                if(subject.name.equals(bestOne.name))continue;
+                subject.brain.copyOtherBrain(bestOne.brain);
+                subject.brain.mutate();
             }
 
         }

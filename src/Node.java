@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Node {
-    String name ;
+    String name;
     boolean last = false;
     double input = 0;
     double output = 0;
@@ -23,6 +23,7 @@ public class Node {
         this.name = name;
 
     }
+
     // It's just for try to reduce the output to a range of 1 and 0
     double sigmoid(double x) {
         return 1 / (1 + Math.exp(-x));
@@ -35,12 +36,10 @@ public class Node {
     }
 
 
-
     void engage() {
-
-
-
-            output = sigmoid(input + bias);
+output=input+bias;
+if(layer!=0)
+       output= sigmoid(input + bias);
 
         //yeah, it works I think
         for (int i = 0; i < connections.size(); i++) {
@@ -49,6 +48,7 @@ public class Node {
         }
 
     }
+
     // I will save this as a reference to a Node
     void addNewConnection(Node newCon) {
 
@@ -60,10 +60,11 @@ public class Node {
 
 
     }
+
     void changeBias() {
 
 
-        if (rnd.nextDouble() < 0.10)//10% of probability of change the bias completaly
+        if (rnd.nextDouble() < 0.10)//10% of probability of change the bias completely
             bias = rnd.nextDouble() + rnd.nextDouble() * -1;
         else
             bias += rnd.nextGaussian();

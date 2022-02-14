@@ -52,7 +52,6 @@ class Subject  {
             dino.jump(true);
         else if (output.get(2) > 0.8) //duck
             dino.duck();
-        ArrayList<Node> net=brain.network;
 
         dino.moving();
 

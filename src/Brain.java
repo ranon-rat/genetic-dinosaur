@@ -175,8 +175,8 @@ public class Brain {
             Node node = otherBrain.network.get(n);
 
             for (int c = 0; c < node.connections.size(); c++) {
-                System.out.println(c + " " + node.connections.size());
-                network.get(n).connections.add( network.get(node.connections.get(n).n));
+               // System.out.println(c + " " + node.connections.size());
+                network.get(n).connections.add( network.get(node.connections.get(c).n));
 
                 network.get(n).weights.add( node.weights.get(c));
 
@@ -216,7 +216,7 @@ public class Brain {
 
             //and then the name
             g.drawString(node.name, node.layer * separationLayer + 30, node.index * separationNode + 30);
-            g.drawString(node.input+"", node.layer * separationLayer + 50, node.index * separationNode + 40);
+            g.drawString(node.output+"", node.layer * separationLayer + 50, node.index * separationNode + 40);
 
         }
     }
