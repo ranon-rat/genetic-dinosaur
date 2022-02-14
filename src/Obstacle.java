@@ -67,11 +67,7 @@ public class Obstacle {
         g.drawImage(sprite.get(Math.abs(x % sprite.size())), x, screen.height - y - height -30, width, height, null);
         x -= movePerFrame;
 
-     /*
-     * x0000
-     * 00000
-     * 00000
-     * */
+
     }
 
     // I will use it for detect if the dinosaur touch the obstacle
@@ -79,8 +75,8 @@ public class Obstacle {
     public boolean isOnArea(Dinosaur dino) {
 
         return  dino.width           >= this.x &&
-                dino.width           <= this.x - this.width &&
-                dino.y + dino.height >= this.y &&
-                dino.y + dino.height <= this.y- this.height;
+                dino.width           <= this.x + this.width &&
+                dino.y  >= this.y &&
+                dino.y + dino.height <= this.y+ this.height;
     }
 }
