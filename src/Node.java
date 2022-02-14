@@ -2,31 +2,33 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Node {
+    String name="";
+    boolean last=false;
     double input = 0;
     double output = 0;
     double bias = 1;
+
+    int nodesConnectedToThis=0;
     int layer;
     int index;
+    int n;
+
     ArrayList<Node> connections = new ArrayList<>();// this works as a pointer
     ArrayList<Double> weights = new ArrayList<>();
+    Random rnd = new Random();
 
-    Node(int l, int i) {
-        index = i;
-        layer = l;
+    Node(int layer, int index, int n,String name) {
+        this.index = index;
+        this.layer = layer;
+        this.n = n;
+        this.name=name;
+
     }
 
     double sigmoid(double x) {
         return 1 / (1 + Math.exp(-x));
     }
 
-    void changeBias() {
-        Random rnd = new Random();
-        double rand2 = Math.random();
-        if (rand2 < 0.10)
-            bias = rnd.nextDouble() + rnd.nextDouble() * -1;
-        else
-            bias += rnd.nextGaussian();
-    }
 
     void clear() {
         output = 0;
@@ -45,10 +47,35 @@ public class Node {
 
     }
 
+    void changeBias() {
+
+
+        if (rnd.nextDouble() < 0.10)
+            bias = rnd.nextDouble() + rnd.nextDouble() * -1;
+        else
+            bias += rnd.nextGaussian();
+        if (bias > 1)
+            bias = 0;
+    }
+
+    void engage() {
+
+        if((nodesConnectedToThis==0 ||connections.size()==0) && layer != 0 ) return;
+        if (layer != 0 &&nodesConnectedToThis>0) {
+            output = sigmoid(input + bias);
+        }
+        //yeah, it works I think
+        for(int i=0;i<connections.size();i++)
+            if((connections.get(i).nodesConnectedToThis!=0 ||connections.get(i).connections.size()!=0)||connections.get(i).last)
+                 connections.get(i).input += output * weights.get(i);
+
+
+    }
+
     void changeWeights() {
         Random rnd = new Random();
         for (int i = 0; i < weights.size(); i++) {
-            if (Math.random() < 0.10)
+            if (rnd.nextDouble() < 0.10)
                 weights.set(i, rnd.nextDouble() + rnd.nextDouble() * -1);
             else
                 weights.set(i, weights.get(i) + rnd.nextGaussian());
@@ -60,18 +87,5 @@ public class Node {
         }
     }
 
-    void engage() {
-
-        if (layer != 0) {
-            output = sigmoid(input + bias);
-        }
-        //I think that it should work because im not declare a new node or something like that
-        //I'm just using a variable another variable based in an object, so it should work I think ,but I don't really know
-        for (int i = 0; i < connections.size(); i++) {
-
-            connections.get(i).input += output * weights.get(i);
-
-        }
-    }
 
 }

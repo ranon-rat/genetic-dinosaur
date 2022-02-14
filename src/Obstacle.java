@@ -2,6 +2,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
+
 public class Obstacle {
     int x;
     int y = 0;
@@ -12,9 +13,9 @@ public class Obstacle {
     String type;
 
     //this is only for generate the obstacles
-    public Obstacle(String typeOfObstacle, int screenWidth) {
+    public Obstacle(String typeOfObstacle, Game screen) {
 
-        this.x = screenWidth;
+        this.x = screen.width;
         type = typeOfObstacle;
 
         switch (type) {
@@ -60,11 +61,11 @@ public class Obstacle {
     }
 
     // I just show the obstacle
-    public void show(Graphics g, int screenHeight) {
+    public void show(Graphics g, Game screen) {
 
         // g.fillRect(x, screenHeight - y - height - 30, width, height);
 
-        g.drawImage(sprite.get((x % sprite.size())), x, screenHeight - y - height - 30, width, height, null);
+        g.drawImage(sprite.get(Math.abs(x % sprite.size())), x, screen.height - y - height - 30, width, height, null);
         x -= movePerFrame;
 
 
@@ -72,14 +73,11 @@ public class Obstacle {
 
     // I will use it for detect if the dinosaur touch the obstacle
     // if that is the case , this function should return true
-    public void isOnArea(Dinosaur dino) {
+    public boolean isOnArea(Dinosaur dino) {
 
-        if (dino.width >= this.x &&
+        return  dino.width >= this.x &&
                 dino.width <= this.x + this.width &&
                 dino.y + dino.height >= this.y &&
-                dino.y + dino.height <= this.y + this.height) {
-            dino.score = 0;
-            dino.actualSprite = dino.dinoDie;
-        }
+                dino.y + dino.height <= this.y + this.height;
     }
 }

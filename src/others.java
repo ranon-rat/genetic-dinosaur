@@ -3,6 +3,17 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+class Layers {
+    int length, loop, start;
+
+    Layers(int loop, int start, int length) {
+        this.length = length;
+        this.start = start;
+        this.loop = loop;
+
+    }
+}
+
 public class others {
     public static Image getImage(String path) {
         try {

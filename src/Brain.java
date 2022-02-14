@@ -2,23 +2,21 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-class Layers {
-    int length, loop, start;
 
-    Layers(int loop, int start, int length) {
-        this.length = length;
-        this.start = start;
-        this.loop = loop;
-
-    }
-}
 
 public class Brain implements Cloneable {
-    ArrayList<Node> network = new ArrayList<>();
+
+    ArrayList<Node> network = new ArrayList<>();// simple neural network
+    ArrayList<Integer> lengths = new ArrayList<>();// this is for know the length of each layer
+
     Font myFont = new Font("Courier New", Font.BOLD, 5);
+
+    Random rnd = new Random();
+
     int hiddenLayers = 3,// 3 hidden layers
             lengthOfHiddenLayers = 8,
             output = 3,// length of output nodes
+
     /*
     0 jump
     0 big jump
@@ -28,8 +26,8 @@ public class Brain implements Cloneable {
     /*
                             ///0| ---> 0 ---> 0 --->\
     |width of obstacle     ////0| ---> 0 ---> 0 ---->\
-|   |distance of next obstacle/0| ---> 0 ---> 0 ----->\--->small jump
-    |height of obstacle  //////0| ---> 0 ---> 0 ------>\--> big jump
+|   |height of obstacle   /////0| ---> 0 ---> 0 ----->\--->small jump
+    |distance of next obstacle/0| ---> 0 ---> 0 ------>\--> big jump
     |y position of obstacle\\\\0| ---> 0 ---> 0 ------>/--> duck
     |speed                \\\\\0| ---> 0 ---> 0 ----->/
     |player y pos          \\\\0| ---> 0 ---> 0 ---->/
@@ -44,27 +42,48 @@ public class Brain implements Cloneable {
         Layers[] layers = {new Layers(1, 0, input),
                 new Layers(hiddenLayers + 1, 1, lengthOfHiddenLayers),
                 new Layers(hiddenLayers + 2, hiddenLayers + 1, output)};
-        ArrayList<Integer> lengths = new ArrayList<>();
+
+        int min = 0;
         for (Layers l : layers) {
             for (int layer = l.start; layer < l.loop; layer++) {
                 for (int index = 0; index < l.length; index++) {
-                    network.add(new Node(layer, index));
+                    network.add(new Node(layer, index, min + index,""+index));
                 }
+                min += l.length;
                 lengths.add(l.length);
+
             }
+
         }
-        //input
-        System.out.println(lengths.size() + " " + network.size());
+
 
         //this should generate some connections
-        for (int n = 0; n < (network.size() - output); n++) {
+        min = 0;
+
+        for (int layer = 0; layer < lengths.size() - 1; layer++) {
+
+            for (int index = 0; index < lengths.get(layer); index++) {
+                int pos = min + index;
+                if (network.get(pos).nodesConnectedToThis == 0 && network.get(0).layer != 0) {
+                    continue;
+                }
+                int randomPos = min + lengths.get(layer) + rnd.nextInt(lengths.get(layer + 1));
+                Node randomNode = network.get(randomPos);
+                randomNode.nodesConnectedToThis++;
+                Node n = network.get(pos);
+                n.addNewConnection(
+                        randomNode
+                );
+                n.changeBias();
+                n.changeWeights();
+            }
+            min += lengths.get(layer);
 
 
-            int layer = network.get(n).layer;
-            network.get(n).addNewConnection(network.get(layer + rnd.nextInt(lengths.get(layer + 1))));
-            network.get(n).changeBias();
-            network.get(n).changeWeights();
         }
+       for(Node output: network.subList(network.size()-output,network.size())){
+           output.last=true;
+       }
 
 
     }
@@ -72,14 +91,15 @@ public class Brain implements Cloneable {
 
     // you will get the result after finishing the operation
     public ArrayList<Double> result() {
-        ArrayList<Double> output = new ArrayList<>();
+        ArrayList<Double> out = new ArrayList<>();
         for (Node node : network) //this is not going to be at the output layer and just that
-            node.engage();
-        for (Node node : network.subList(hiddenLayers + 1, hiddenLayers + 2)) {
-            output.add(node.output);
-        }
+            if(node.nodesConnectedToThis!=0 ||node.connections.size()!=0 || node.layer == 0 )
+                node.engage();
+        for (Node node : network.subList(network.size()-output, network.size()))
+            out.add(node.sigmoid(node.input+node.bias));
 
-        return output;
+
+        return out;
     }
 
     public void passToInput(ArrayList<Double> x) {
@@ -101,11 +121,37 @@ public class Brain implements Cloneable {
 
     // maybe I should create a new connections
     public void mutate() {
-        for (Node node : network) {
 
-            node.changeWeights();
-            node.changeBias();
+        for (Node node : network) {
+            if (node.nodesConnectedToThis > 0 || node.layer == 0) {
+                node.changeWeights();
+                node.changeBias();
+            }
+
         }
+        Node n = network.get(rnd.nextInt(network.size() - output));
+        if (rnd.nextDouble() < 0.1 && n.connections.size() < lengths.get(n.layer) && (n.nodesConnectedToThis > 0 || n.layer == 0)) {
+            int min = 0;
+            for (int i : lengths.subList(0, n.layer)) min += i;
+
+            Node randomNode = network.get(min + lengths.get(n.layer) + rnd.nextInt(lengths.get(n.layer + 1)));
+
+            randomNode.nodesConnectedToThis++;
+            n.addNewConnection(
+                    randomNode
+            );
+
+
+
+
+        }
+        if (rnd.nextDouble() < 0.5 && n.connections.size() > 1 && (n.nodesConnectedToThis > 0 || n.layer == 0)) {
+            Node randomNode = n.connections.get(rnd.nextInt(n.connections.size()));
+            randomNode.nodesConnectedToThis--;
+            n.connections.remove(rnd.nextInt(n.connections.size()));
+
+        }
+
     }
 
     // I hate java
@@ -126,18 +172,24 @@ public class Brain implements Cloneable {
         var separationHeight = height / lengthOfHiddenLayers / 3;
 
         for (Node node : network) {
+            if(node.nodesConnectedToThis == 0 && node.layer != 0)continue;
             ArrayList<Node> connections = node.connections;
             ArrayList<Double> weights = node.weights;
-            for (int i = 0; i < connections.size(); i++) {
-                g.setStroke(new BasicStroke(Math.abs(weights.get(i).floatValue() * 1.5f)));
+
+            for (int i = 0; i < connections.size()&&connections.size()>0 ; i++) {
+
+                g.setStroke(new BasicStroke(Math.abs(weights.get(i).floatValue() * 2f)));
                 g.setColor(Color.getHSBColor((float) (node.output * 360), 100, 50));
                 g.drawLine(10 + node.layer * separationWidth, 10 + node.index * separationHeight, 10 + connections.get(i).layer * separationWidth, 10 + 2 + connections.get(i).index * separationHeight);
             }
-            g.setColor(Color.blue);
+
+            g.setColor(Color.black);
             g.setStroke(new BasicStroke(1));
             g.drawArc(10 + node.layer * separationWidth, 10 + node.index * separationHeight, 5, 5, 5, 360);
-            g.setColor(Color.black);
-            g.drawString(("" + node.output), node.layer * separationWidth, node.index * separationHeight);
+
+            g.drawString(node.name, node.layer * separationWidth, node.index * separationHeight);
+            g.drawString(node.output+"", node.layer * separationWidth, node.index * separationHeight-10);
+
         }
     }
 

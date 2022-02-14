@@ -71,11 +71,11 @@ public class Dinosaur {
         }
     }
 
-    void show(Graphics g, int screenHeight) {
+    void show(Graphics g, Game screen) {
 
         g.setColor(Color.black);
         //this is just for make a movement animation
-        g.drawImage(actualSprite.get(score % actualSprite.size()), 0, screenHeight - y - height - 30, width, height, null);
+        g.drawImage(actualSprite.get(score % actualSprite.size()), 0, screen.width - y - height - 30, width, height, null);
 
         moving();
         if (score % 4 == 0 && hunker) {
