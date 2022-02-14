@@ -26,12 +26,13 @@ public class Population {
             }
         }
         System.out.println();
-        Subject bestOne = others.getBigger(subjects);//this is for get the better one
-
-        g.drawString("" + epoch, screen.width - 30, 20);
-        g.drawString("" + lastBestScore, screen.width / 2, 20);
-        g.drawString("" + bestOne.dino.score, 0, 20);
-        g.drawString(bestOne.name, screen.width / 2, screen.height / 2);
+        Subject bestOne = others.getBiggerSubject(subjects);//this is for get the better one
+        int separationWidth=screen.width/5;
+        g.drawString("epoch: " + epoch, 0, 20);
+        g.drawString("last: " + lastBestScore, separationWidth  , 20);
+        g.drawString("score: " + bestOne.dino.score, separationWidth*2, 20);
+        g.drawString("name: " +bestOne.name, separationWidth*3, 20);
+        g.drawString("die: "+ howManyDie+" ",separationWidth*4,20);
         bestOne.show(g, screen);
 
         if (howManyDie == subjects.size()) {
@@ -42,7 +43,7 @@ public class Population {
             for (Subject subject : subjects) {
                 subject.death = false;
                 subject.dino.score = 0;
-                subject.brain.clearNodes();
+
                 if(subject.name.equals(bestOne.name))continue;
                 subject.brain.copyOtherBrain(bestOne.brain);
                 subject.brain.mutate();

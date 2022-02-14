@@ -37,9 +37,9 @@ public class Node {
 
 
     void engage() {
-output=input+bias;
-if(layer!=0)
-       output= sigmoid(input + bias);
+        output = input + bias;
+        if (layer != 0)
+            output = sigmoid(input + bias);
 
         //yeah, it works I think
         for (int i = 0; i < connections.size(); i++) {
@@ -79,10 +79,10 @@ if(layer!=0)
             else
                 weights.set(i, weights.get(i) + rnd.nextGaussian());
 
-            if (weights.get(i) > 1)
+            if (weights.get(i) > 2)
                 weights.set(i, 1d);
-            else if (weights.get(i) < -1)
-                weights.set(i, -1d);
+            else if (weights.get(i) < -2)
+                weights.set(i, -2d);
         }
     }
 

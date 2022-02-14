@@ -1,5 +1,8 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 class Subject  {
     Brain brain;
@@ -25,10 +28,10 @@ class Subject  {
             return;
         }
         death = obstacle.isOnArea(dino);
-
-
         // after all that I clear the nodes
         brain.clearNodes();
+
+
 
         // This is for pass the values to the input nodes of the neural network
 
@@ -45,13 +48,29 @@ class Subject  {
         //then I get the result
 
         ArrayList<Double> output = brain.result();
+        var temp=(ArrayList<Double>)output.clone();
+        Collections.sort(temp);
 
-        if (output.get(0) > 0.8) //small jump
-            dino.jump(false);
-        else if (output.get(1) > 0.8) // big jump
-            dino.jump(true);
-        else if (output.get(2) > 0.8) //duck
-            dino.duck();
+        int index=output.indexOf(temp.get(temp.size()-1));
+
+
+        if(output.get(index)>0.8) {
+
+            switch (index) {
+                case 0 -> {
+                    dino.jump(false);
+                }
+                case 1 -> {
+                    dino.jump(true);
+                }
+                case 2 -> {
+
+                    dino.duck();
+                }
+            }
+
+        }
+
 
         dino.moving();
 

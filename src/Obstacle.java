@@ -8,7 +8,7 @@ public class Obstacle {
     int y = 0;
     int height;
     int width;
-    int movePerFrame = 10;
+    int movePerFrame = 10+(new Random()).nextInt(5);
     ArrayList<Image> sprite = new ArrayList<>();
     String type;
 
@@ -20,7 +20,7 @@ public class Obstacle {
 
         switch (type) {
             case "duck" -> {
-                this.movePerFrame = 15;
+                this.movePerFrame = 15+(new Random()).nextInt(5);
                 Random rnd=new Random();
                 int[] possibleHeights = {50, 40, 10};
                 this.y = possibleHeights[rnd.nextInt(possibleHeights.length)];

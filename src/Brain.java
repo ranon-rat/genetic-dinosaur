@@ -71,9 +71,6 @@ public class Brain {
 
             for (int index = 0; index < lengths.get(layer); index++) {
                 int pos = min + index;
-                if (network.get(pos).nodesConnectedToThis == 0 && network.get(0).layer != 0) {
-                    continue;
-                }
 
                 Node randomNode = network.get(min + lengths.get(layer) + rnd.nextInt(lengths.get(layer + 1)));
                 randomNode.nodesConnectedToThis++;
@@ -138,10 +135,10 @@ public class Brain {
                 node.changeBias();
             }
 
-        }
+        } 
         Node n = network.get(rnd.nextInt(network.size() - output));
         // this add
-        if (rnd.nextDouble() < 0.1 && n.connections.size() < lengths.get(n.layer) && (n.nodesConnectedToThis > 0 || n.layer == 0)) {
+        if (rnd.nextDouble() < 0.3 && n.connections.size() < lengths.get(n.layer) ) {
             int min = 0;
             for (int i : lengths.subList(0, n.layer)) min += i;
 

@@ -16,7 +16,7 @@ class Layers {
 }
 
 public class others {
-    public static Subject getBigger(ArrayList<Subject> subjects) {
+    public static Subject getBiggerSubject(ArrayList<Subject> subjects) {
         ArrayList<Subject>  temp=(ArrayList<Subject> )subjects.clone();
 
        for(int i=temp.size()-1;i>0;i--){
@@ -28,6 +28,20 @@ public class others {
        }
        return temp.get(0);
 
+    }
+    public static  int getBiggerIndex(ArrayList<Double> outputs){
+        ArrayList<Double>  temp=(ArrayList<Double> )outputs.clone();
+        ArrayList<Integer> index=new ArrayList<>();
+
+        for(int i=temp.size()-1;i>0;i--){
+            if(outputs.get(i-1)<outputs.get(i)){
+                temp.remove(i-1);
+
+            }else{
+                temp.remove(i);
+            }
+        }
+        return temp.get(0).intValue();
 
     }
 
