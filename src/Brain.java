@@ -167,16 +167,13 @@ public class Brain {
     public void copyOtherBrain(Brain otherBrain) {
 
         for (int i = 0; i < network.size(); i++) {
-            network.get(i).connections = new ArrayList<>();
-            network.get(i).weights=new ArrayList<>();
+
             Node node=otherBrain.network.get(i);
 
+            for (int j = 0; j < node.connections.size(); j++) {
 
-
-            for (int j = 0; j < otherBrain.network.get(i).connections.size(); j++) {
-                network.get(i).weights.add(node.weights.get(j) );
-                network.get(i).connections.add(network.get(node.connections.get(j).n));
-
+                network.get(i).connections.set(j,network.get(node.connections.get(j).n));
+                network.get(i).weights.set(j,node.weights.get(j));
 
             }
 

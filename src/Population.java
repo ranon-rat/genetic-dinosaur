@@ -30,7 +30,7 @@ public class Population {
 
         g.drawString("" + epoch, screen.width - 30, 20);
         g.drawString("" + lastBestScore, screen.width / 2, 20);
-        g.drawString("" + subjects.get(0).dino.score, 0, 20);
+        g.drawString("" + bestOne.dino.score, 0, 20);
         g.drawString(bestOne.name, screen.width / 2, screen.height / 2);
         bestOne.show(g, screen);
 

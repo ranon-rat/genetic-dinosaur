@@ -11,12 +11,12 @@ public class Dinosaur {
     float velY;
     float gravity;
     int score = 0;
-    boolean hunker = false;
+    boolean duck = false;
 
     ArrayList<Image> dinoSprites = new ArrayList<>();
     ArrayList<Image> dinoDie = new ArrayList<>();
 
-    ArrayList<Image> dinoHunkerSprites = new ArrayList<>();
+    ArrayList<Image> dinoDuckSprites= new ArrayList<>();
     ArrayList<Image> actualSprite;
 
 
@@ -28,8 +28,8 @@ public class Dinosaur {
             dinoSprites.add(others.getImage("sprites/dino" + i + ".png"));
         }
         dinoDie.add(others.getImage("sprites/dino5.png"));          //die
-        dinoHunkerSprites.add(others.getImage("sprites/dino6.png"));//duck
-        dinoHunkerSprites.add(others.getImage("sprites/dino7.png"));//duck
+        dinoDuckSprites.add(others.getImage("sprites/dino6.png"));//duck
+        dinoDuckSprites.add(others.getImage("sprites/dino7.png"));//duck
         actualSprite = dinoSprites;
 
 
@@ -54,7 +54,7 @@ public class Dinosaur {
         gravity = 2;// I change the gravity
         width = (int) (realWidth * 1.3409090909);
         height = (int) (realHeight * 0.6382978723);
-        actualSprite = dinoHunkerSprites;
+        actualSprite = dinoDuckSprites;
     }
 
     void moving() {
@@ -66,13 +66,12 @@ public class Dinosaur {
             velY = 0;
             y = 0;
         }
-        if (!hunker) {
-            actualSprite = dinoSprites;
-        }
-        if (score % 4 == 0 && hunker) {
-            hunker = false;
+
+        if (score % 4 == 0 && duck) {
+            duck = false;
             return;
         }
+        actualSprite = dinoSprites;
         width = realWidth;
         height = realHeight;
     }
