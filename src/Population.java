@@ -28,8 +28,9 @@ public class Population {
             }
             subject.dino.show(g,screen);
         }
+       System.out.println();
         Subject bestOne = others.getBiggerSubject(subjects);//this is for get the better one
-       // System.out.println(bestOne.name+" , "+bestOne.death+" , "+bestOne.dino.score +";");
+
 
         int separationWidth=screen.width/5;
         g.drawString("epoch: " + epoch, 0, 20);
