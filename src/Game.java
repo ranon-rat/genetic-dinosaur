@@ -6,7 +6,8 @@ public class Game {
 
     // this is for testing for now, later I will generate more obstacles
     Obstacle obs = new Obstacle("duck", this);
-    Population population = new Population(5);
+    Population population = new Population(10);
+   // Brain b=new Brain();
     // the list of possible obstacles for use it later
     String[] options = {"big cactus", "two big cactus", "three big cactus", "small cactus", "two small cactus", "three small cactus", "duck"};
 
@@ -20,6 +21,7 @@ public class Game {
         g.setColor(Color.black);
         obs.show(g, this);
         population.doSomething(obs, g, this);
+      //  b.show(g,this);
         if (obs.x < -obs.width) {
             obs = new Obstacle(options[(int) (Math.random() * options.length)], this);
         }

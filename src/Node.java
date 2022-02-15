@@ -3,24 +3,26 @@ import java.util.Random;
 
 public class Node {
     String name;
-    boolean last = false;
-    double input = 0;
-    double output = 0;
-    double bias = 1;
-    int nodesConnectedToThis = 0;
-    int layer;
-    int index;
-    int n;// number in the neural network
+    public boolean enable = false;
+    public boolean last;
+    public double input = 0;
+    public double output = 0;
+    public double bias = 1;
+    public int nodesConnectedToThis = 0;
+    public int layer;
+    public int index;
+    public int pos;// number in the neural network
 
     ArrayList<Node> connections = new ArrayList<>();// this works as a pointer
     ArrayList<Double> weights = new ArrayList<>();
-    Random rnd = new Random();
+    private Random rnd = new Random();
 
-    Node(int layer, int index, int n, String name) {
+    Node(int layer, int index, int pos, boolean last, String name) {
         this.index = index;
         this.layer = layer;
-        this.n = n;
+        this.pos = pos;
         this.name = name;
+        this.last = last;
 
     }
 
