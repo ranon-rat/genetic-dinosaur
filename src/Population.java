@@ -25,7 +25,9 @@ public class Population {
             if (subject.death) {
                 howManyDie++;
                 subject.dino.y=0;
+                continue;
             }
+            subject.dino.show(g,screen);
 
         }
      //  System.out.println();

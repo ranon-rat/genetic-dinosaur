@@ -40,6 +40,7 @@ public class Dinosaur {
     void jump(boolean bigJump) {
         duck=false;
         if (y == 0) {
+            score--;
             velY = 15;
             gravity=1f;
             if (bigJump) {
@@ -54,6 +55,7 @@ public class Dinosaur {
 
     void duck() {
         duck = true;
+        score--;
         gravity = 3;// I change the gravity
         width = (int) (realWidth * 1.3409090909);
         height = (int) (realHeight * 0.6382978723);

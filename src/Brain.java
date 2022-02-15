@@ -154,10 +154,10 @@ public class Brain {
         }
         //this remove
         if (Math.random() < 0.01 && node.connections.size() > 2) {
-            int pos=rnd.nextInt(node.connections.size());
+            int pos = rnd.nextInt(node.connections.size());
             Node randomNode = node.connections.get(pos);
             randomNode.nodesConnectedToThis--;
-            randomNode.enable=randomNode.nodesConnectedToThis>0;
+            randomNode.enable = randomNode.nodesConnectedToThis > 0;
 
             node.weights.remove(pos);
             node.connections.remove(pos);
@@ -169,17 +169,19 @@ public class Brain {
     // I hate java
 
     public void copyOtherBrain(Brain otherBrain) {
-     
-        for (int n = 0; n < network.size(); n++) {
-            network.get(n).weights = new ArrayList<>();
-            network.get(n).connections = new ArrayList<>();
-            network.get(n).enable=otherBrain.network.get(n).enable;
-            network.get(n).bias=otherBrain.network.get(n).bias;
-            Node node = otherBrain.network.get(n);
 
+        for (int n = 0; n < network.size(); n++) {
+
+            network.get(n).connections = new ArrayList<>();
+
+            Node node = otherBrain.network.get(n);
+            network.get(n).enable=node.enable;
+            network.get(n).nodesConnectedToThis=node.nodesConnectedToThis;
+            network.get(n).bias=node.bias;
+            network.get(n).weights=(ArrayList<Float>) node.weights.clone();
             for (int c = 0; c < node.connections.size(); c++) {
                 network.get(n).connections.add(network.get(node.connections.get(c).pos));
-                network.get(n).weights.add(node.weights.get(c));
+
 
             }
 
@@ -201,12 +203,12 @@ public class Brain {
 
 
                 g.setColor(Color.blue);
-                g.drawLine(40 + node.layer * separationLayer, 40+4 + node.index * separationNode, 40 + connections.get(i).layer * separationLayer, 40+4  + connections.get(i).index * separationNode);
+                g.drawLine(40 + node.layer * separationLayer, 40 + 4 + node.index * separationNode, 40 + connections.get(i).layer * separationLayer, 40 + 4 + connections.get(i).index * separationNode);
 
             }
-            g.setColor(Color.getHSBColor( (node.output * 210) + 150, 100, 50));
+            g.setColor(Color.getHSBColor((node.output * 210) + 150, 100, 50));
 
-            g.setColor(Color.getHSBColor(242, 100,  (50 * node.output)));
+            g.setColor(Color.getHSBColor(242, 100, (50 * node.output)));
 
             //just show the node
             g.fillArc(40 + node.layer * separationLayer, 40 + node.index * separationNode, 5, 5, 5, 360);

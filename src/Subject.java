@@ -62,7 +62,7 @@ class Subject {
                     dino.jump(false);
                 }
                 case 1 -> {
-System.out.println(dino.y);
+
                     action = "big jump";
                     dino.jump(true);
                 }
