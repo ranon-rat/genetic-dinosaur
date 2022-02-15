@@ -1,14 +1,13 @@
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 
-class Subject  {
+class Subject {
     Brain brain;
     Dinosaur dino = new Dinosaur();
     String[] names = {"width", "height", "distance", "y obstacle", "speed", "y player"};
     String name;
+    String action = "nothing";
 
     boolean death = false;
 
@@ -23,7 +22,7 @@ class Subject  {
     }
 
     void doSomething(Obstacle obstacle) {
-
+        action = "nothing";
         if (death) {
             return;
         }
@@ -32,40 +31,42 @@ class Subject  {
         brain.clearNodes();
 
 
-
         // This is for pass the values to the input nodes of the neural network
 
         ArrayList<Double> input = new ArrayList<>();
 
-        input.add((double) obstacle.width/91);         // width of obstacle
-        input.add((double) obstacle.height/60);        // height of obstacle
+        input.add((double) obstacle.width / 91);         // width of obstacle
+        input.add((double) obstacle.height / 60);        // height of obstacle
 
-        input.add((double)obstacle.x/obstacle.widthScreen);             // distance of obstacle
-        input.add((double) obstacle.y/50);             // y pos of obstacle
-        input.add((double) obstacle.movePerFrame/20);  // speed
-        input.add((double) dino.y/10);                 // y pos of player
+        input.add((double) obstacle.x / obstacle.widthScreen);             // distance of obstacle
+        input.add((double) obstacle.y / 50);             // y pos of obstacle
+        input.add((double) obstacle.movePerFrame / 20);  // speed
+        input.add((double) dino.y / 148);                 // y pos of player
 
         brain.passToInput(input);
         //then I get the result
 
+
         ArrayList<Double> output = brain.result();
-        var temp=(ArrayList<Double>)output.clone();
+        var temp = (ArrayList<Double>) output.clone();
         Collections.sort(temp);
 
-        int index=output.indexOf(temp.get(temp.size()-1));
+        int index = output.indexOf(temp.get(temp.size() - 1));
 
 
-        if(output.get(index)>0.8) {
+        if (output.get(index) > 0.8) {
 
             switch (index) {
                 case 0 -> {
+                    action = "small jump";
                     dino.jump(false);
                 }
                 case 1 -> {
+                    action = "big jump";
                     dino.jump(true);
                 }
                 case 2 -> {
-
+                    action = "duck";
                     dino.duck();
                 }
             }
@@ -78,9 +79,12 @@ class Subject  {
     }
 
     void show(Graphics2D g, Game screen) {
+
         if (!death) {
+            g.drawString(action, (screen.width / 2) - (action.length() / 2), screen.height / 2);
             dino.show(g, screen);
             brain.show(g, screen);
+
         }
 
     }

@@ -1,4 +1,7 @@
+import com.sun.source.tree.NewArrayTree;
+
 import java.awt.*;
+import java.util.Random;
 
 public class Game {
     public int width = 800;
@@ -25,7 +28,7 @@ public class Game {
         population.doSomething(obs, g, this);
       //  b.show(g,this);
         if (obs.x < -obs.width) {
-            obs = new Obstacle(options[(int) (Math.random() * options.length)], this);
+            obs = new Obstacle(options[(new Random()).nextInt(options.length)],this);
         }
         try {
             Thread.sleep(100);

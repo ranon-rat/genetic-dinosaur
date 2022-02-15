@@ -166,17 +166,14 @@ public class Brain {
     // I hate java
 
     public void copyOtherBrain(Brain otherBrain) {
-
-
+     
         for (int n = 0; n < network.size(); n++) {
             network.get(n).weights = new ArrayList<>();
             network.get(n).connections = new ArrayList<>();
             Node node = otherBrain.network.get(n);
 
             for (int c = 0; c < node.connections.size(); c++) {
-
                 network.get(n).connections.add(network.get(node.connections.get(c).pos));
-
                 network.get(n).weights.add(node.weights.get(c));
 
             }

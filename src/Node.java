@@ -28,7 +28,7 @@ public class Node {
 
     // It's just for try to reduce the output to a range of 1 and 0
     double sigmoid(double x) {
-        return 1 / (1 + Math.pow(Math.E, -4.9*x));
+        return 1 / (1 + Math.exp(-x));
     }
 
     // I just clear the output and the input
@@ -39,8 +39,8 @@ public class Node {
 
 
     void engage() {
-        output=input;
-        if(layer!=0)
+        output = input;
+        if (layer != 0)
             output = sigmoid(input + bias);
 
         //yeah, it works I think
@@ -66,23 +66,23 @@ public class Node {
     void changeBias() {
 
 
-        if (rnd.nextDouble() < 0.01)//10% of probability of change the bias completely
+        if (rnd.nextDouble() < 0.1)//10% of probability of change the bias completely
             bias = rnd.nextDouble() + rnd.nextDouble() * -1;
         else
             bias += rnd.nextGaussian();
-        bias%=2;
+
 
     }
 
     void changeWeights() {
         Random rnd = new Random();
         for (int i = 0; i < weights.size(); i++) {
-            if (rnd.nextDouble() < 0.01)
-                weights.set(i, rnd.nextDouble());
+            if (rnd.nextDouble() < 0.1)
+                weights.set(i, rnd.nextDouble() + rnd.nextDouble() * -1);
             else
                 weights.set(i, weights.get(i) + rnd.nextGaussian());
 
-         weights.set(i, weights.get(i)%2);
+
         }
     }
 

@@ -39,15 +39,15 @@ public class Dinosaur {
     void jump(boolean bigJump) {
         duck=false;
         if (y == 0) {
-
+            velY = 8;
             gravity = 0.37f;
             if (bigJump) {
+                gravity=0.20f;
 
-                velY = 10;
                 return;
             }
 
-            velY = 8;
+
         }
     }
 
