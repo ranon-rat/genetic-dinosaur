@@ -5,12 +5,14 @@ public class Game {
     public int height = 600;
 
     // this is for testing for now, later I will generate more obstacles
-    Obstacle obs = new Obstacle("duck", this);
+    Obstacle obs ;
     Population population = new Population(5);
    // Brain b=new Brain();
     // the list of possible obstacles for use it later
     String[] options ={"big cactus", "two big cactus", "three big cactus", "small cactus", "two small cactus", "three small cactus", "duck"};
-
+    Game(){
+        obs = new Obstacle(options[(int) (Math.random() * options.length)], this);
+    }
     public void clean(Graphics g) {
         g.setColor(Color.white);
         g.fillRect(0, 0, width, height);

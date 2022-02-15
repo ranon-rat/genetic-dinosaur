@@ -214,11 +214,8 @@ public class Brain {
 
             //and then the name
             g.drawString(node.name, node.layer * separationLayer + 30, node.index * separationNode + 30);
-            if(node.layer!=0) {
-                g.drawString(node.output + "", node.layer * separationLayer + 50, node.index * separationNode + 40);
-                continue;
-            }
-            g.drawString(node.input + "", node.layer * separationLayer + 50, node.index * separationNode + 40);
+
+            g.drawString(node.output + "", node.layer * separationLayer + 50, node.index * separationNode + 40);
         }
     }
 

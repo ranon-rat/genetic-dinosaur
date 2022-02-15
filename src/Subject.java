@@ -37,9 +37,9 @@ class Subject  {
 
         ArrayList<Double> input = new ArrayList<>();
 
-        input.add((double) obstacle.width/90);         // width of obstacle
+        input.add((double) obstacle.width/91);         // width of obstacle
         input.add((double) obstacle.height/60);        // height of obstacle
-        //birds.get(i).posX + birds.get(i).w/2 - (playerXpos - dinoRun1.width/2)
+
         input.add((double)obstacle.x/obstacle.widthScreen);             // distance of obstacle
         input.add((double) obstacle.y/50);             // y pos of obstacle
         input.add((double) obstacle.movePerFrame/20);  // speed
