@@ -1,4 +1,3 @@
-import com.sun.source.tree.NewArrayTree;
 
 import java.awt.*;
 import java.util.Random;
@@ -6,6 +5,7 @@ import java.util.Random;
 public class Game {
     public int width = 800;
     public int height = 600;
+    public int framesPerSecond=12;
 
     // this is for testing for now, later I will generate more obstacles
     Obstacle obs ;
@@ -31,7 +31,7 @@ public class Game {
             obs = new Obstacle(options[(new Random()).nextInt(options.length)],this);
         }
         try {
-            Thread.sleep(100);
+            Thread.sleep(1000/framesPerSecond);
         } catch (InterruptedException ignored) {
         }
 

@@ -14,8 +14,16 @@ class Layers {
 
     }
 }
-
 public class others {
+    public static int getBiggerIndex(ArrayList<Float> output){
+        int index=0;
+        for(int i=output.size()-1;i>0;i--){
+            if(output.get(index)<output.get(i)){
+              index=i;
+            }
+        }
+        return index;
+    }
     public static Subject getBiggerSubject(ArrayList<Subject> subjects) {
         ArrayList<Subject>  temp=(ArrayList<Subject> )subjects.clone();
 
@@ -29,21 +37,7 @@ public class others {
        return temp.get(0);
 
     }
-    public static  int getBiggerIndex(ArrayList<Double> outputs){
-        ArrayList<Double>  temp=(ArrayList<Double> )outputs.clone();
-        ArrayList<Integer> index=new ArrayList<>();
 
-        for(int i=temp.size()-1;i>0;i--){
-            if(outputs.get(i-1)<outputs.get(i)){
-                temp.remove(i-1);
-
-            }else{
-                temp.remove(i);
-            }
-        }
-        return temp.get(0).intValue();
-
-    }
 
     public static Image getImage(String path) {
         try {

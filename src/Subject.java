@@ -1,11 +1,11 @@
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 
 class Subject {
     Brain brain;
     Dinosaur dino = new Dinosaur();
     String[] names = {"width", "height", "distance", "y obstacle", "speed", "y player"};
+    String[] outputNames={"small jump","big jump","duck"};
     String name;
     String action = "nothing";
 
@@ -19,11 +19,15 @@ class Subject {
             brain.network.get(i).name = names[i];
 
         }
+        for(int i=0;i<outputNames.length;i++){
+            brain.network.get((brain.network.size()-brain.output)+i).name=outputNames[i];
+        }
     }
 
     void doSomething(Obstacle obstacle) {
         action = "nothing";
         if (death) {
+            dino.y=0;
             return;
         }
         death = obstacle.isOnArea(dino);
@@ -33,28 +37,24 @@ class Subject {
 
         // This is for pass the values to the input nodes of the neural network
 
-        ArrayList<Double> input = new ArrayList<>();
+        ArrayList<Float> input = new ArrayList<>();
 
-        input.add((double) obstacle.width / 91);         // width of obstacle
-        input.add((double) obstacle.height / 60);        // height of obstacle
-
-        input.add((double) obstacle.x / obstacle.widthScreen);             // distance of obstacle
-        input.add((double) obstacle.y / 50);             // y pos of obstacle
-        input.add((double) obstacle.movePerFrame / 20);  // speed
-        input.add((double) dino.y / 148);                 // y pos of player
+        input.add((float) obstacle.width / 91);         // width of obstacle
+        input.add((float) obstacle.height / 60);        // height of obstacle
+        input.add((float) obstacle.x / obstacle.widthScreen);             // distance of obstacle
+        input.add((float) obstacle.y / 50);             // y pos of obstacle
+        input.add((float) obstacle.vel / 20);  // speed
+        input.add((float) dino.y / 159);                 // y pos of player
 
         brain.passToInput(input);
         //then I get the result
 
 
-        ArrayList<Double> output = brain.result();
-        var temp = (ArrayList<Double>) output.clone();
-        Collections.sort(temp);
-
-        int index = output.indexOf(temp.get(temp.size() - 1));
+        ArrayList<Float> output = brain.result();
 
 
-        if (output.get(index) > 0.8) {
+        int index = others.getBiggerIndex(output);
+        if (output.get(index) > 0.7) {
 
             switch (index) {
                 case 0 -> {
@@ -62,6 +62,7 @@ class Subject {
                     dino.jump(false);
                 }
                 case 1 -> {
+System.out.println(dino.y);
                     action = "big jump";
                     dino.jump(true);
                 }

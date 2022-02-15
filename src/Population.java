@@ -20,15 +20,15 @@ public class Population {
         for (Subject subject : subjects) {
 
             subject.doSomething(obs);
-            System.out.print(subject.name+" , "+subject.death + " , " +  subject.dino.score+" ; ");
+        //    System.out.print(subject.name+" , "+subject.death + " , " +  subject.dino.score+" ; ");
 
             if (subject.death) {
                 howManyDie++;
-                continue;
+                subject.dino.y=0;
             }
-            subject.dino.show(g,screen);
+
         }
-       System.out.println();
+     //  System.out.println();
         Subject bestOne = others.getBiggerSubject(subjects);//this is for get the better one
 
 
@@ -49,10 +49,11 @@ public class Population {
                 subject.death = false;
                 subject.dino.score = 0;
 
-                if(subject.name.equals(bestOne.name))continue;
+                if(subject==bestOne)continue;
                 subject.brain.copyOtherBrain(bestOne.brain);
                 subject.brain.mutate();
             }
+            bestOne.brain.mutate();
 
         }
     }

@@ -13,8 +13,8 @@ public class Brain {
 
     Random rnd = new Random();
 
-    int hiddenLayers = 3,// 3 hidden layers
-            lengthOfHiddenLayers = 8,
+    int hiddenLayers = 2,// 3 hidden layers
+            lengthOfHiddenLayers = 3,
             output = 3,
 
     // length of output nodes
@@ -106,11 +106,10 @@ public class Brain {
 
 
     // you will get the result after finishing the operation
-    public ArrayList<Double> result() {
-        ArrayList<Double> out = new ArrayList<>();
+    public ArrayList<Float> result() {
+        ArrayList<Float> out = new ArrayList<>();
         for (Node node : network) //this is not going to be at the output layer and just that
-            if ((node.connections.size() != 0 && node.nodesConnectedToThis != 0) || node.layer == 0 || node.last)
-
+            if ((node.connections.size() != 0 && node.nodesConnectedToThis != 0) || node.layer == 0 || node.enable)
                 node.engage();
 
 
@@ -121,7 +120,7 @@ public class Brain {
         return out;
     }
 
-    public void passToInput(ArrayList<Double> x) {
+    public void passToInput(ArrayList<Float> x) {
         if (x.size() != input) {
             System.err.println("the input its different to the input that it should have");
             return;
@@ -150,14 +149,18 @@ public class Brain {
         }
         Node node = network.get(rnd.nextInt(network.size() - output));
         // this add
-        if (rnd.nextDouble() < 0.3 && node.connections.size() < lengths.get(node.layer)) {
+        if (Math.random() < 0.2 && node.connections.size() < lengths.get(node.layer)) {
             connectNodeToEnd(node.pos);
         }
         //this remove
-        if (rnd.nextDouble() < 0.01 && node.connections.size() > 2) {
-            Node randomNode = node.connections.get(rnd.nextInt(node.connections.size()));
+        if (Math.random() < 0.01 && node.connections.size() > 2) {
+            int pos=rnd.nextInt(node.connections.size());
+            Node randomNode = node.connections.get(pos);
             randomNode.nodesConnectedToThis--;
-            node.connections.remove(randomNode);
+            randomNode.enable=randomNode.nodesConnectedToThis>0;
+
+            node.weights.remove(pos);
+            node.connections.remove(pos);
 
         }
 
@@ -170,6 +173,8 @@ public class Brain {
         for (int n = 0; n < network.size(); n++) {
             network.get(n).weights = new ArrayList<>();
             network.get(n).connections = new ArrayList<>();
+            network.get(n).enable=otherBrain.network.get(n).enable;
+            network.get(n).bias=otherBrain.network.get(n).bias;
             Node node = otherBrain.network.get(n);
 
             for (int c = 0; c < node.connections.size(); c++) {
@@ -196,12 +201,12 @@ public class Brain {
 
 
                 g.setColor(Color.blue);
-                g.drawLine(40 + node.layer * separationLayer, 40 + node.index * separationNode, 40 + connections.get(i).layer * separationLayer, 40 + 2 + connections.get(i).index * separationNode);
+                g.drawLine(40 + node.layer * separationLayer, 40+4 + node.index * separationNode, 40 + connections.get(i).layer * separationLayer, 40+4  + connections.get(i).index * separationNode);
 
             }
-            g.setColor(Color.getHSBColor((float) (node.output * 210) + 150, 100, 50));
+            g.setColor(Color.getHSBColor( (node.output * 210) + 150, 100, 50));
 
-            g.setColor(Color.getHSBColor(242, 100, (float) (50 * node.output)));
+            g.setColor(Color.getHSBColor(242, 100,  (50 * node.output)));
 
             //just show the node
             g.fillArc(40 + node.layer * separationLayer, 40 + node.index * separationNode, 5, 5, 5, 360);

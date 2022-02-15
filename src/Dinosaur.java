@@ -10,6 +10,7 @@ public class Dinosaur {
     int y = 0;
     float velY;
     float gravity;
+
     int score = 0;
     boolean duck = false;
 
@@ -39,12 +40,11 @@ public class Dinosaur {
     void jump(boolean bigJump) {
         duck=false;
         if (y == 0) {
-            velY = 8;
-            gravity = 0.37f;
+            velY = 15;
+            gravity=1f;
             if (bigJump) {
-                gravity=0.20f;
+                gravity = 0.7f;
 
-                return;
             }
 
 
@@ -54,7 +54,7 @@ public class Dinosaur {
 
     void duck() {
         duck = true;
-        gravity = 2;// I change the gravity
+        gravity = 3;// I change the gravity
         width = (int) (realWidth * 1.3409090909);
         height = (int) (realHeight * 0.6382978723);
         actualSprite = dinoDuckSprites;

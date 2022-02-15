@@ -8,8 +8,9 @@ public class Obstacle {
     int y = 0;
     int height;
     int width;
-    int widthScreen=1;
-    int movePerFrame = 10+(new Random()).nextInt(5);
+    int widthScreen;
+
+    int vel = 10 + (new Random()).nextInt(5);// x per second
     ArrayList<Image> sprite = new ArrayList<>();
     String type;
 
@@ -18,12 +19,13 @@ public class Obstacle {
     public Obstacle(String typeOfObstacle, Game screen) {
 
         this.x = screen.width;
+        widthScreen = screen.width;
         type = typeOfObstacle;
 
         switch (type) {
             case "duck" -> {
-                this.movePerFrame = 15+(new Random()).nextInt(5);
-                Random rnd=new Random();
+                this.vel = 15 + (new Random()).nextInt(5);
+                Random rnd = new Random();
                 int[] possibleHeights = {50, 40, 10};
                 this.y = possibleHeights[rnd.nextInt(possibleHeights.length)];
                 this.width = 45;
@@ -64,10 +66,9 @@ public class Obstacle {
 
     // I just show the obstacle
     public void show(Graphics g, Game screen) {
-       widthScreen=screen.width;
 
-        g.drawImage(sprite.get(Math.abs(x % sprite.size())), x, screen.height - y - height -30, width, height, null);
-        x -= movePerFrame;
+        g.drawImage(sprite.get(Math.abs(x % sprite.size())), x, screen.height - y - height - 30, width, height, null);
+        x -= vel ;
 
 
     }
@@ -76,9 +77,9 @@ public class Obstacle {
     // if that is the case , this function should return true
     public boolean isOnArea(Dinosaur dino) {
 
-        return  dino.width           >= this.x &&
-                0         <= this.x + this.width &&
-                dino.y+ dino.height  >= this.y &&
-                dino.y  <= this.y+ this.height;
+        return dino.width >= this.x &&
+                0 <= this.x + this.width &&
+                dino.y + dino.height >= this.y &&
+                dino.y <= this.y + this.height;
     }
 }
