@@ -21,9 +21,12 @@ public class Population {
 
             subject.doSomething(obs);
             System.out.print(subject.dino.score + " , " + subject.death + " ; ");
+
             if (subject.death) {
                 howManyDie++;
+                continue;
             }
+            subject.dino.show(g,screen);
         }
         System.out.println();
         Subject bestOne = others.getBiggerSubject(subjects);//this is for get the better one
@@ -36,7 +39,7 @@ public class Population {
         bestOne.show(g, screen);
 
         if (howManyDie == subjects.size()) {
-            obs.x = -obs.width;
+            obs.x = -obs.width-30;
             lastBestScore = bestOne.dino.score;
             epoch++;
 

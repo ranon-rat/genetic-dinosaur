@@ -15,7 +15,7 @@ public class Node {
 
     ArrayList<Node> connections = new ArrayList<>();// this works as a pointer
     ArrayList<Double> weights = new ArrayList<>();
-    private Random rnd = new Random();
+    private final Random rnd = new Random();
 
     Node(int layer, int index, int pos, boolean last, String name) {
         this.index = index;
@@ -28,7 +28,7 @@ public class Node {
 
     // It's just for try to reduce the output to a range of 1 and 0
     double sigmoid(double x) {
-        return 1 / (1 + Math.exp(-x));
+        return 1 / (1 + Math.pow(Math.E, -4.9*x));
     }
 
     // I just clear the output and the input
@@ -39,8 +39,8 @@ public class Node {
 
 
     void engage() {
-        output = input + bias;
-        if (layer != 0)
+        output=input;
+        if(layer!=0)
             output = sigmoid(input + bias);
 
         //yeah, it works I think
@@ -66,25 +66,23 @@ public class Node {
     void changeBias() {
 
 
-        if (rnd.nextDouble() < 0.10)//10% of probability of change the bias completely
+        if (rnd.nextDouble() < 0.01)//10% of probability of change the bias completely
             bias = rnd.nextDouble() + rnd.nextDouble() * -1;
         else
             bias += rnd.nextGaussian();
+        bias%=2;
 
     }
 
     void changeWeights() {
         Random rnd = new Random();
         for (int i = 0; i < weights.size(); i++) {
-            if (rnd.nextDouble() < 0.10)
-                weights.set(i, rnd.nextDouble() + rnd.nextDouble() * -1);
+            if (rnd.nextDouble() < 0.01)
+                weights.set(i, rnd.nextDouble());
             else
                 weights.set(i, weights.get(i) + rnd.nextGaussian());
 
-            if (weights.get(i) > 2)
-                weights.set(i, 1d);
-            else if (weights.get(i) < -2)
-                weights.set(i, -2d);
+         weights.set(i, weights.get(i)%2);
         }
     }
 

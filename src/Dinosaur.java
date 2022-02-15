@@ -16,7 +16,7 @@ public class Dinosaur {
     ArrayList<Image> dinoSprites = new ArrayList<>();
     ArrayList<Image> dinoDie = new ArrayList<>();
 
-    ArrayList<Image> dinoDuckSprites= new ArrayList<>();
+    ArrayList<Image> dinoDuckSprites = new ArrayList<>();
     ArrayList<Image> actualSprite;
 
 
@@ -35,7 +35,9 @@ public class Dinosaur {
 
     }
 
+
     void jump(boolean bigJump) {
+        duck=false;
         if (y == 0) {
 
             gravity = 0.37f;
@@ -51,11 +53,12 @@ public class Dinosaur {
 
 
     void duck() {
-
+        duck = true;
         gravity = 2;// I change the gravity
         width = (int) (realWidth * 1.3409090909);
         height = (int) (realHeight * 0.6382978723);
         actualSprite = dinoDuckSprites;
+
     }
 
     void moving() {
@@ -68,8 +71,8 @@ public class Dinosaur {
             y = 0;
         }
 
-        if (score % 4 == 0 && duck) {
-            duck = false;
+        if (duck) {
+            duck = !(score % 4 == 0);
             return;
         }
         actualSprite = dinoSprites;
@@ -81,6 +84,7 @@ public class Dinosaur {
 
         g.setColor(Color.black);
         //this is just for make a movement animation
+
         g.drawImage(actualSprite.get(score % actualSprite.size()), 0, screen.height - y - height - 30, width, height, null);
 
 
