@@ -69,8 +69,7 @@ public class Obstacle {
     public void show(Graphics g, Game screen) {
 
         g.drawImage(sprite.get(Math.abs(x % sprite.size())), x, screen.height - y - height - 30, width, height, null);
-        time += 0.005;
-        time %= 200000;
+
         x -= vel*time;
 
 

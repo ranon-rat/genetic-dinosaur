@@ -36,7 +36,8 @@ public class Game {
         //  b.show(g,this);
         if (obstacle.x < -obstacle.width) {
             float time= obstacle.time;
-
+            time += 0.005;
+            time %= 200000;
             obstacle = new Obstacle(options[(new Random()).nextInt(options.length)], this);
             obstacle.time=time;
 
