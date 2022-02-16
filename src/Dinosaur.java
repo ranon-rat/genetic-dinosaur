@@ -40,7 +40,7 @@ public class Dinosaur {
     void jump(boolean bigJump) {
         duck=false;
         if (y == 0) {
-            score--;
+            score-=10;
             velY = 15;
             gravity=1f;
             if (bigJump) {
@@ -55,7 +55,7 @@ public class Dinosaur {
 
     void duck() {
         duck = true;
-        score--;
+        
         gravity = 3;// I change the gravity
         width = (int) (realWidth * 1.3409090909);
         height = (int) (realHeight * 0.6382978723);
@@ -87,7 +87,7 @@ public class Dinosaur {
         g.setColor(Color.black);
         //this is just for make a movement animation
 
-        g.drawImage(actualSprite.get(score % actualSprite.size()), 0, screen.height - y - height - 30, width, height, null);
+        g.drawImage(actualSprite.get(Math.abs(score % actualSprite.size())), 0, screen.height - y - height - 30, width, height, null);
 
 
     }

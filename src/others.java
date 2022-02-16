@@ -14,27 +14,31 @@ class Layers {
 
     }
 }
+
 public class others {
-    public static int getBiggerIndex(ArrayList<Float> output){
-        int index=0;
-        for(int i=output.size()-1;i>0;i--){
-            if(output.get(index)<output.get(i)){
-              index=i;
+    public static int getBiggerIndex(ArrayList<Float> output) {
+        int index = 0;
+        for (int i = output.size() - 1; i > 0; i--) {
+            if (output.get(index) < output.get(i)) {
+                index = i;
             }
         }
         return index;
     }
-    public static Subject getBiggerSubject(ArrayList<Subject> subjects) {
-        ArrayList<Subject>  temp=(ArrayList<Subject> )subjects.clone();
 
-       for(int i=temp.size()-1;i>0;i--){
-           if(temp.get(i-1).dino.score<temp.get(i).dino.score){
-               temp.remove(i-1);
-           }else{
-               temp.remove(i);
-           }
-       }
-       return temp.get(0);
+    public static Subject getBiggerSubject(ArrayList<Subject> subjects) {
+        ArrayList<Subject> temp = (ArrayList<Subject>) subjects.clone();
+
+        for (int i = temp.size() - 1; i > 0; i--) {
+
+                if (temp.get(i - 1).dino.score < temp.get(i).dino.score ) {
+                    temp.remove(i - 1);
+                }
+             else {
+                temp.remove(i);
+            }
+        }
+        return temp.get(0);
 
     }
 

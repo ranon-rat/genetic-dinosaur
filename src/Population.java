@@ -17,33 +17,34 @@ public class Population {
 
     void doSomething(Obstacle obs, Graphics2D g, Game screen) {
         int howManyDie = 0;
+
         for (Subject subject : subjects) {
 
             subject.doSomething(obs);
-        //    System.out.print(subject.name+" , "+subject.death + " , " +  subject.dino.score+" ; ");
+            //    System.out.print(subject.name+" , "+subject.death + " , " +  subject.dino.score+" ; ");
 
             if (subject.death) {
                 howManyDie++;
-                subject.dino.y=0;
+                subject.dino.y = 0;
                 continue;
             }
-            subject.dino.show(g,screen);
+            subject.dino.show(g, screen);
 
         }
-     //  System.out.println();
+        //  System.out.println();
+
         Subject bestOne = others.getBiggerSubject(subjects);//this is for get the better one
 
-
-        int separationWidth=screen.width/5;
+        int separationWidth = screen.width / 5;
         g.drawString("epoch: " + epoch, 0, 20);
-        g.drawString("last: " + lastBestScore, separationWidth  , 20);
-        g.drawString("score: " + bestOne.dino.score, separationWidth*2, 20);
-        g.drawString("best one: " +bestOne.name, separationWidth*3, 20);
-        g.drawString("die: "+ howManyDie+" ",separationWidth*4,20);
+        g.drawString("last: " + lastBestScore, separationWidth, 20);
+        g.drawString("score: " + bestOne.dino.score, separationWidth * 2, 20);
+        g.drawString("best one: " + bestOne.name, separationWidth * 3, 20);
+        g.drawString("die: " + howManyDie + " ", separationWidth * 4, 20);
         bestOne.show(g, screen);
 
         if (howManyDie == subjects.size()) {
-            obs.x = -obs.width-30;
+            obs.x = -obs.width - 30;
             lastBestScore = bestOne.dino.score;
             epoch++;
 
@@ -51,7 +52,7 @@ public class Population {
                 subject.death = false;
                 subject.dino.score = 0;
 
-                if(subject==bestOne)continue;
+                if (subject == bestOne) continue;
                 subject.brain.copyOtherBrain(bestOne.brain);
                 subject.brain.mutate();
             }

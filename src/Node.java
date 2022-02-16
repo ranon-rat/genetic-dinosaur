@@ -80,7 +80,7 @@ public class Node  {
 
         for (int i = 0; i < weights.size(); i++) {
             if (rnd.nextDouble() < 0.3)
-                weights.set(i,(float)( Math.random() + Math.random() * -1));
+                weights.set(i,(float)Math.random());
             else
                 weights.set(i,(float) (weights.get(i) + rnd.nextGaussian()));
             weights.set(i,weights.get(i)%1);

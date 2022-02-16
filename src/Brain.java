@@ -53,7 +53,7 @@ public class Brain {
         for (Layers l : layers) {
             for (int layer = l.start; layer < l.loop; layer++) {
                 for (int index = 0; index < l.length; index++) {
-                    network.add(new Node(layer, index, min + index, layer == hiddenLayers + 1, "" + index));
+                    network.add(new Node(layer, index, min + index, layer == hiddenLayers + 1, "" +min + index));
 
 
                 }
@@ -173,15 +173,15 @@ public class Brain {
         for (int n = 0; n < network.size(); n++) {
 
             network.get(n).connections = new ArrayList<>();
-
+            network.get(n).weights=new ArrayList<>();
             Node node = otherBrain.network.get(n);
             network.get(n).enable=node.enable;
             network.get(n).nodesConnectedToThis=node.nodesConnectedToThis;
             network.get(n).bias=node.bias;
-            network.get(n).weights=(ArrayList<Float>) node.weights.clone();
+
             for (int c = 0; c < node.connections.size(); c++) {
                 network.get(n).connections.add(network.get(node.connections.get(c).pos));
-
+                network.get(n).weights.add(node.weights.get(c));
 
             }
 
@@ -198,23 +198,25 @@ public class Brain {
         for (Node node : network) {
 
             ArrayList<Node> connections = node.connections;
+            ArrayList<Float> weights=node.weights;
 
             for (int i = 0; i < connections.size() && connections.size() != 0 && (node.nodesConnectedToThis != 0 || node.layer == 0); i++) {
+                g.setColor(Color.getHSBColor((360 *weights.get(i)), 100, 50));
 
 
-                g.setColor(Color.blue);
+
+
                 g.drawLine(40 + node.layer * separationLayer, 40 + 4 + node.index * separationNode, 40 + connections.get(i).layer * separationLayer, 40 + 4 + connections.get(i).index * separationNode);
 
-            }
-            g.setColor(Color.getHSBColor((node.output * 210) + 150, 100, 50));
 
-            g.setColor(Color.getHSBColor(242, 100, (50 * node.output)));
+            }
+            g.setColor(Color.getHSBColor((node.output *360), 100, (50 * node.output)));
+
+
 
             //just show the node
-            g.fillArc(40 + node.layer * separationLayer, 40 + node.index * separationNode, 5, 5, 5, 360);
+            g.fillArc(40 + node.layer * separationLayer, 40 + node.index * separationNode, 10, 10, 5, 360);
             g.setColor(Color.black);
-            // the stroke
-            g.drawArc(40 + node.layer * separationLayer, 40 + node.index * separationNode, 5, 5, 5, 360);
 
             //and then the name
             g.drawString(node.name, node.layer * separationLayer + 30, node.index * separationNode + 30);
