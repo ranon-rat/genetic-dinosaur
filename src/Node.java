@@ -69,11 +69,11 @@ public class Node  {
     void changeBias() {
 
 
-        if (rnd.nextDouble() < 0.2)//10% of probability of change the bias completely
+        if (rnd.nextDouble() < 0.1)//10% of probability of change the bias completely
             bias =(float) (Math.random()+(Math.random() * -1));
         else
             bias += rnd.nextGaussian();
-        bias%=2;
+        bias%=1;
 
 
     }
@@ -81,11 +81,11 @@ public class Node  {
     void changeWeights() {
 
         for (int i = 0; i < weights.size(); i++) {
-            if (rnd.nextDouble() < 0.3)
+            if (rnd.nextDouble() < 0.1)
                 weights.set(i,(float)Math.random());
             else
                 weights.set(i,(float) (weights.get(i) + rnd.nextGaussian()));
-            weights.set(i,weights.get(i)%1);
+            //weights.set(i,weights.get(i)%1);
 
 
         }

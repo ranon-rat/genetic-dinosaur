@@ -43,7 +43,7 @@ class Subject  {
         input.add((float) obstacle.height / 60);        // height of obstacle
         input.add((float) obstacle.x / obstacle.widthScreen);             // distance of obstacle
         input.add((float) obstacle.y / 50);             // y pos of obstacle
-        input.add((float) obstacle.vel / 15);  // speed
+        input.add( (obstacle.vel*obstacle.time)/2000000);  // speed
         input.add((float) dino.y / 159);                 // y pos of player
 
         brain.passToInput(input);

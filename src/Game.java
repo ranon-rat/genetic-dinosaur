@@ -5,7 +5,7 @@ import java.util.Random;
 public class Game {
     public int width = 800;
     public int height = 600;
-    public int framesPerSecond=12;
+    public int framesPerSecond=14;
 
     // this is for testing for now, later I will generate more obstacles
     Obstacle obs ;

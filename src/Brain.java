@@ -149,11 +149,11 @@ public class Brain {
         }
         Node node = network.get(rnd.nextInt(network.size() - output));
         // this add
-        if (Math.random() < 0.3 && node.connections.size() < lengths.get(node.layer)) {
+        if (Math.random() < 0.1 && node.connections.size() < lengths.get(node.layer)) {
             connectNodeToEnd(node.pos);
         }
         //this remove
-        if (Math.random() < 0.03 && node.connections.size() > 2) {
+        if (Math.random() < 0.1 && node.connections.size() > 2) {
             int pos = rnd.nextInt(node.connections.size());
             Node randomNode = node.connections.get(pos);
             randomNode.nodesConnectedToThis--;

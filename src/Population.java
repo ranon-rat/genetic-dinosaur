@@ -5,7 +5,8 @@ public class Population {
     ArrayList<Subject> subjects = new ArrayList<>();
 
     int epoch = 0;
-    Subject lastBestSubject=new Subject(0+"");
+    Subject lastBestSubject = new Subject(0 + "");
+
     Population(int howMany) {
         for (int i = 0; i < howMany; i++) {
 
@@ -25,7 +26,7 @@ public class Population {
             if (subject.death) {
                 howManyDie++;
                 subject.dino.y = 0;
-                subject.dino.velY=0;
+                subject.dino.velY = 0;
                 continue;
             }
             subject.dino.show(g, screen);
@@ -45,12 +46,13 @@ public class Population {
 
         if (howManyDie == subjects.size()) {
             obs.x = -obs.width - 30;
-            epoch++;
-            if(lastBestSubject.dino.score<bestOne.dino.score){
-                lastBestSubject=new Subject(bestOne.name);
-                lastBestSubject.brain.copyOtherBrain(bestOne.brain);
-                lastBestSubject.dino.score=bestOne.dino.score;
 
+            obs.time=1;
+            epoch++;
+            if(lastBestSubject.dino.score-20<bestOne.dino.score) {
+                lastBestSubject = new Subject(bestOne.name);
+                lastBestSubject.brain.copyOtherBrain(bestOne.brain);
+                lastBestSubject.dino.score = bestOne.dino.score;
             }
 
             for (Subject subject : subjects) {

@@ -41,6 +41,7 @@ public class Dinosaur {
         duck=false;
         if (y == 0) {
 
+
             velY = 15;
             gravity=1f;
             if (bigJump) {
