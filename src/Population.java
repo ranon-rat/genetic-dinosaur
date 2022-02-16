@@ -17,8 +17,8 @@ public class Population {
 
     void doSomething(Obstacle obs, Graphics2D g, Game screen) {
         int howManyDie = 0;
+        for(Subject subject:subjects){
 
-        for (Subject subject : subjects) {
 
             subject.doSomething(obs);
             //    System.out.print(subject.name+" , "+subject.death + " , " +  subject.dino.score+" ; ");
@@ -47,9 +47,9 @@ public class Population {
         if (howManyDie == subjects.size()) {
             obs.x = -obs.width - 30;
 
-            obs.time=1;
+            obs.time = 1;
             epoch++;
-            if(lastBestSubject.dino.score-20<bestOne.dino.score) {
+            if (lastBestSubject.dino.score - 20 < bestOne.dino.score) {
                 lastBestSubject = new Subject(bestOne.name);
                 lastBestSubject.brain.copyOtherBrain(bestOne.brain);
                 lastBestSubject.dino.score = bestOne.dino.score;
@@ -65,6 +65,7 @@ public class Population {
 
         }
     }
+
 
 
 }

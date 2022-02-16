@@ -16,6 +16,8 @@ class Layers {
 }
 
 public class others {
+
+
     public static int getBiggerIndex(ArrayList<Float> output) {
         int index = 0;
         for (int i = output.size() - 1; i > 0; i--) {
@@ -31,10 +33,9 @@ public class others {
 
         for (int i = temp.size() - 1; i > 0; i--) {
 
-                if (temp.get(i - 1).dino.score < temp.get(i).dino.score ) {
-                    temp.remove(i - 1);
-                }
-             else {
+            if (temp.get(i - 1).dino.score < temp.get(i).dino.score) {
+                temp.remove(i - 1);
+            } else {
                 temp.remove(i);
             }
         }

@@ -53,7 +53,7 @@ public class Brain {
         for (Layers l : layers) {
             for (int layer = l.start; layer < l.loop; layer++) {
                 for (int index = 0; index < l.length; index++) {
-                    network.add(new Node(layer, index, min + index, layer == hiddenLayers + 1, "" +min + index));
+                    network.add(new Node(layer, index, min + index, layer == hiddenLayers + 1, "" + (min + index)));
 
 
                 }
@@ -80,7 +80,7 @@ public class Brain {
     private void connectNodeToEnd(int start) {
 
         int min = 0;
-        int pos=start;
+        int pos = start;
         for (int i : lengths.subList(0, network.get(start).layer)) min += i;
 
         // 0->1->2->3
@@ -94,10 +94,10 @@ public class Brain {
             network.get(pos).addNewConnection(randomNode);
             randomNode.nodesConnectedToThis++;
             if (randomNode.enable) break;
-            randomNode.enable=true;
+            randomNode.enable = true;
 
             pos = randomNode.pos;
-            min+=lengths.get(layer);
+            min += lengths.get(layer);
 
         }
 
@@ -109,7 +109,7 @@ public class Brain {
     public ArrayList<Float> result() {
         ArrayList<Float> out = new ArrayList<>();
         for (Node node : network) //this is not going to be at the output layer and just that
-            if (((node.connections.size() != 0||node.last) && node.nodesConnectedToThis != 0) || node.layer == 0)
+            if (((node.connections.size() != 0 || node.last) && node.nodesConnectedToThis != 0) || node.layer == 0)
                 node.engage();
 
 
@@ -157,7 +157,7 @@ public class Brain {
             int pos = rnd.nextInt(node.connections.size());
             Node randomNode = node.connections.get(pos);
             randomNode.nodesConnectedToThis--;
-            randomNode.enable=node.nodesConnectedToThis>0;
+            randomNode.enable = node.nodesConnectedToThis > 0;
 
 
             node.weights.remove(pos);
@@ -174,11 +174,11 @@ public class Brain {
         for (int n = 0; n < network.size(); n++) {
 
             network.get(n).connections = new ArrayList<>();
-            network.get(n).weights=new ArrayList<>();
+            network.get(n).weights = new ArrayList<>();
             Node node = otherBrain.network.get(n);
 
-            network.get(n).nodesConnectedToThis=node.nodesConnectedToThis;
-            network.get(n).bias=node.bias;
+            network.get(n).nodesConnectedToThis = node.nodesConnectedToThis;
+            network.get(n).bias = node.bias;
 
             for (int c = 0; c < node.connections.size(); c++) {
                 network.get(n).connections.add(network.get(node.connections.get(c).pos));
@@ -199,30 +199,27 @@ public class Brain {
         for (Node node : network) {
 
             ArrayList<Node> connections = node.connections;
-            ArrayList<Float> weights=node.weights;
-
-            for (int i = 0; i < connections.size() && connections.size() != 0 && (node.nodesConnectedToThis != 0 || node.layer == 0); i++) {
-                g.setColor(Color.getHSBColor((360 *weights.get(i)), 100, 50));
-
+            ArrayList<Float> weights = node.weights;
+            for (int i = 0; i < connections.size(); i++) {
+                g.setColor(Color.getHSBColor((360 * weights.get(i)), 100, 50));
 
 
-
-                g.drawLine(40 + node.layer * separationLayer, 40 + 4 + node.index * separationNode, 40 + connections.get(i).layer * separationLayer, 40 + 4 + connections.get(i).index * separationNode);
+                g.drawLine(40 + node.layer * separationLayer, 40 + 2 + node.index * separationNode, 40 + connections.get(i).layer * separationLayer, 40 + 2 + connections.get(i).index * separationNode);
 
 
             }
-            g.setColor(Color.getHSBColor((node.output *360), 100, (50 * node.output)));
-
+            g.setColor(Color.getHSBColor(240, 100, (50 * node.output)));
 
 
             //just show the node
-            g.fillArc(40 + node.layer * separationLayer, 40 + node.index * separationNode, 10, 10, 5, 360);
+            g.fillArc(40 + node.layer * separationLayer, 40 + node.index * separationNode, 5, 5, 5, 360);
             g.setColor(Color.black);
 
             //and then the name
             g.drawString(node.name, node.layer * separationLayer + 30, node.index * separationNode + 30);
 
             g.drawString(node.output + "", node.layer * separationLayer + 50, node.index * separationNode + 40);
+
         }
     }
 

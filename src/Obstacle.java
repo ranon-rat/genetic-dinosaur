@@ -10,7 +10,7 @@ public class Obstacle {
     int width;
     int widthScreen;
 
-    int vel = 10 ;// x per second
+    int vel = 15 ;// x per second
     float time=1;
     ArrayList<Image> sprite = new ArrayList<>();
     String type;
@@ -27,7 +27,7 @@ public class Obstacle {
             case "duck" -> {
 
                 Random rnd = new Random();
-                int[] possibleHeights = {123, 40, 10};
+                int[] possibleHeights = {130, 40, 10};
                 this.y = possibleHeights[rnd.nextInt(possibleHeights.length)];
                 this.width = 45;
                 this.height = 30;
@@ -69,8 +69,8 @@ public class Obstacle {
     public void show(Graphics g, Game screen) {
 
         g.drawImage(sprite.get(Math.abs(x % sprite.size())), x, screen.height - y - height - 30, width, height, null);
-        time+=0.01;
-        time%=200000;
+        time += 0.005;
+        time %= 200000;
         x -= vel*time;
 
 
