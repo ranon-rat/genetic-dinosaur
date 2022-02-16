@@ -27,7 +27,7 @@ public class Obstacle {
             case "duck" -> {
 
                 Random rnd = new Random();
-                int[] possibleHeights = {119, 40, 10};
+                int[] possibleHeights = {123, 40, 10};
                 this.y = possibleHeights[rnd.nextInt(possibleHeights.length)];
                 this.width = 45;
                 this.height = 30;
