@@ -9,5 +9,6 @@ the resources that I used for make this was:
 
 [neural networks series of 3blue1brown](https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi)
 
-https://user-images.githubusercontent.com/66473662/154091544-33ef7efe-ebb8-4e77-a6af-a2cae22653e7.mp4
+
+https://user-images.githubusercontent.com/66473662/154274217-c49909be-3115-4d78-af7a-cd17c10e8321.mp4
 
