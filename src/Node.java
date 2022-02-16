@@ -3,11 +3,13 @@ import java.util.Random;
 
 public class Node  {
     String name;
-    public boolean enable = false;
+
+    public boolean enable=false;
     public boolean last;
     public float input = 0;
     public float output = 0;
     public float bias = 1;
+
     public int nodesConnectedToThis = 0;
     public int layer;
     public int index;

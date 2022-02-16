@@ -14,7 +14,7 @@ public class Brain {
     Random rnd = new Random();
 
     int hiddenLayers = 2,// 3 hidden layers
-            lengthOfHiddenLayers = 3,
+            lengthOfHiddenLayers = 6,
             output = 3,
 
     // length of output nodes
@@ -69,7 +69,7 @@ public class Brain {
 
 
         for (Node input : network.subList(0, input)) {
-            input.enable = true;
+
             connectNodeToEnd(input.pos);
         }
 
@@ -80,13 +80,13 @@ public class Brain {
     private void connectNodeToEnd(int start) {
 
         int min = 0;
-        int pos = start;
-        for (int i : lengths.subList(0, network.get(pos).layer)) min += i;
+        int pos=start;
+        for (int i : lengths.subList(0, network.get(start).layer)) min += i;
 
         // 0->1->2->3
         //(0,1)->(1,7)->(2,3)->(3,5)->(4,1)
-        while (!network.get(pos).last) {
 
+        while (!network.get(pos).last) {
             int layer = network.get(pos).layer;
             // I get a random node from the next layer
             Node randomNode = network.get(min + lengths.get(layer) + rnd.nextInt(lengths.get(layer + 1)));
@@ -94,10 +94,10 @@ public class Brain {
             network.get(pos).addNewConnection(randomNode);
             randomNode.nodesConnectedToThis++;
             if (randomNode.enable) break;
-            randomNode.enable = true;
-            min += lengths.get(layer);
-            pos = randomNode.pos;
+            randomNode.enable=true;
 
+            pos = randomNode.pos;
+            min+=lengths.get(layer);
 
         }
 
@@ -109,7 +109,7 @@ public class Brain {
     public ArrayList<Float> result() {
         ArrayList<Float> out = new ArrayList<>();
         for (Node node : network) //this is not going to be at the output layer and just that
-            if ((node.connections.size() != 0 && node.nodesConnectedToThis != 0) || node.layer == 0 || node.enable)
+            if (((node.connections.size() != 0||node.last) && node.nodesConnectedToThis != 0) || node.layer == 0)
                 node.engage();
 
 
@@ -149,15 +149,16 @@ public class Brain {
         }
         Node node = network.get(rnd.nextInt(network.size() - output));
         // this add
-        if (Math.random() < 0.2 && node.connections.size() < lengths.get(node.layer)) {
+        if (Math.random() < 0.3 && node.connections.size() < lengths.get(node.layer)) {
             connectNodeToEnd(node.pos);
         }
         //this remove
-        if (Math.random() < 0.01 && node.connections.size() > 2) {
+        if (Math.random() < 0.03 && node.connections.size() > 2) {
             int pos = rnd.nextInt(node.connections.size());
             Node randomNode = node.connections.get(pos);
             randomNode.nodesConnectedToThis--;
-            randomNode.enable = randomNode.nodesConnectedToThis > 0;
+            randomNode.enable=node.nodesConnectedToThis>0;
+
 
             node.weights.remove(pos);
             node.connections.remove(pos);
@@ -175,7 +176,7 @@ public class Brain {
             network.get(n).connections = new ArrayList<>();
             network.get(n).weights=new ArrayList<>();
             Node node = otherBrain.network.get(n);
-            network.get(n).enable=node.enable;
+
             network.get(n).nodesConnectedToThis=node.nodesConnectedToThis;
             network.get(n).bias=node.bias;
 

@@ -10,7 +10,7 @@ public class Obstacle {
     int width;
     int widthScreen;
 
-    int vel = 10 + (new Random()).nextInt(5);// x per second
+    int vel = 10 ;// x per second
     ArrayList<Image> sprite = new ArrayList<>();
     String type;
 
@@ -24,7 +24,7 @@ public class Obstacle {
 
         switch (type) {
             case "duck" -> {
-                this.vel = 15 + (new Random()).nextInt(5);
+                this.vel = 15;
                 Random rnd = new Random();
                 int[] possibleHeights = {50, 40, 10};
                 this.y = possibleHeights[rnd.nextInt(possibleHeights.length)];

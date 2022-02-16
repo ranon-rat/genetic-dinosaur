@@ -40,7 +40,7 @@ public class Dinosaur {
     void jump(boolean bigJump) {
         duck=false;
         if (y == 0) {
-            score-=10;
+
             velY = 15;
             gravity=1f;
             if (bigJump) {

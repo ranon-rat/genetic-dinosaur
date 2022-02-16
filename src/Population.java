@@ -5,8 +5,7 @@ public class Population {
     ArrayList<Subject> subjects = new ArrayList<>();
 
     int epoch = 0;
-    int lastBestScore = 0;
-
+    Subject lastBestSubject=new Subject(0+"");
     Population(int howMany) {
         for (int i = 0; i < howMany; i++) {
 
@@ -26,6 +25,7 @@ public class Population {
             if (subject.death) {
                 howManyDie++;
                 subject.dino.y = 0;
+                subject.dino.velY=0;
                 continue;
             }
             subject.dino.show(g, screen);
@@ -37,7 +37,7 @@ public class Population {
 
         int separationWidth = screen.width / 5;
         g.drawString("epoch: " + epoch, 0, 20);
-        g.drawString("last: " + lastBestScore, separationWidth, 20);
+        g.drawString("last: " + lastBestSubject.dino.score, separationWidth, 20);
         g.drawString("score: " + bestOne.dino.score, separationWidth * 2, 20);
         g.drawString("best one: " + bestOne.name, separationWidth * 3, 20);
         g.drawString("die: " + howManyDie + " ", separationWidth * 4, 20);
@@ -45,18 +45,21 @@ public class Population {
 
         if (howManyDie == subjects.size()) {
             obs.x = -obs.width - 30;
-            lastBestScore = bestOne.dino.score;
             epoch++;
+            if(lastBestSubject.dino.score<bestOne.dino.score){
+                lastBestSubject=new Subject(bestOne.name);
+                lastBestSubject.brain.copyOtherBrain(bestOne.brain);
+                lastBestSubject.dino.score=bestOne.dino.score;
+
+            }
 
             for (Subject subject : subjects) {
                 subject.death = false;
                 subject.dino.score = 0;
-
-                if (subject == bestOne) continue;
-                subject.brain.copyOtherBrain(bestOne.brain);
+                subject.brain.copyOtherBrain(lastBestSubject.brain);
                 subject.brain.mutate();
             }
-            bestOne.brain.mutate();
+
 
         }
     }
